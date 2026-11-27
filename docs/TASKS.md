@@ -23,6 +23,9 @@ Substitui `tasks/THREADS.md` e `tasks/CODEX-001.md` (mantidos como histórico). 
 | P1-007 | 08 + 09 | aguardando | P1-004 | tests/sim/** | simulações por seed e relatório real |
 | P1-008 | 09 + Rafael | aguardando | P1-005/006/007 | docs/PLAYTEST.md | playtest e E2E conforme ambiente |
 
+## Protótipo de teste
+`prototypes/sandbox-p1.html` (também publicado como artefato para o Rafael): partida de 5 noites e laboratório de combos, num HTML autocontido que implementa as hipóteses D001–D004/D006/D017/D018. É ferramenta de playtest descartável, não o código do jogo: P1-002/P1-004 reimplementam as regras em `src/core` com testes, e divergências entre os dois são defeito a registrar.
+
 ## Paralelismo agora
 Podem rodar ao mesmo tempo, em arquivos exclusivos: 01, 03, 05, 06, 07, 08, 09 (todas em docs próprios). 04 começa depois de um rascunho da 03. 02 segue em P1-002 assim que 01/09 fecharem D001–D004. Só a 02 altera `src/core/`; só a 00 altera STATE, TASKS e o status das decisões.
 

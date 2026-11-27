@@ -41,7 +41,7 @@ P1: partida completa, derrota/vitória/reinício, sem arte final, determinismo e
 D001–D009 em DECISIONS. Nenhum preço exato, peso de sorteio, taxa de vitória ou resultado de playtest validado. GDD não substitui o mestre onde omisso.
 
 ## Ambiguidades abertas (para thread 01, P0-02a)
-- **A01 — combo 60 precisa de um quinto despertador.** A vela desperta no máximo 4 vizinhos ortogonais; a cadeia usa 5 relíquias que precisam ser despertadas (crânio, espelho, olho, sino, ampulheta). Disposição candidata com vela em (1,1): espelho N (0,1) com o 2º crânio à sua esquerda (0,0), crânio E, olho S, sino O ⇒ 10 + 10 + 0 + 20 = 40; a ampulheta (+20) exige segunda vela ou fio (+2 maldição). Resolver em P1-003 com fixture real, sem forçar o total.
+- **A01 — combo 60 (resolvido no protótipo).** Uma vela só desperta 4 vizinhos e a cadeia precisa de 5. Disposição válida com as regras D001–D004: crânio (0,0), espelho (0,1), sino (1,0), vela (1,1), crânio (1,2), olho (2,1), vela (3,3), fio (3,4), ampulheta (2,4) ⇒ 10 + 10 + 20 + 20 = **60**, maldição +2. Verificado em `prototypes/sandbox-p1.html` (exemplo "Combo de 60"); vira fixture de teste em P1-003.
 - **A01b —** O espelho copia o ganho-base estático da relíquia à esquerda mesmo que ela ainda esteja inativa (D003 implica que sim)? Isso decide se a disposição acima funciona.
 - **A02 —** Vela desperta relíquias com gatilho de início (moeda, pena, outra vela)? Proposta D001: não.
 - **A03 —** Ganho copiado pelo espelho conta como "ganho direto" para o olho e a ampulheta? Proposta D003: não para o olho; a ampulheta repete só ganho direto creditado.
