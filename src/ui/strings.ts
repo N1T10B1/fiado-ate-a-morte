@@ -59,6 +59,8 @@ export const ptBR = {
   'detail.none': 'Selecione uma relíquia para ver o efeito e o alcance (contorno verde).',
   'trigger.start': 'gatilho de início',
   'trigger.wake': 'gatilho de despertar',
+  'save.corrupt': 'O save anterior estava danificado. Ele foi guardado à parte e uma partida nova começou.',
+  'save.incompatible': 'O save anterior é de outra versão das regras. Ele foi guardado à parte e uma partida nova começou.',
   'foot': 'Sem arte final: relíquias são marcadores de texto. A mesma seed com as mesmas ações dá sempre o mesmo resultado; a prévia não consome a seed.',
 } as const;
 

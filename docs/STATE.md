@@ -11,7 +11,8 @@ Data: 2026-11-27 | Fase: P1 jogável em PR (#6), aguardando playtest | Coordena�
 - Evidência (2026-11-27): typecheck ok; **105 testes** passando (resolvedor 37, partida 20, simulação 2, núcleo 46); build ok (JS 30 kB, 11,5 kB gzip). Teste de fumaça no Chromium headless a 360 px e 1280 px: mover/desfazer, teclado, sino com animação, recompensa, noite 2 e combo 60 no laboratório; sem erros de console nem rolagem horizontal.
 - Build de playtest publicado como artefato (claude.ai/artifact/NUhhmpxfiSHUzzaSo7HKow), gerado por `npm run build:single`.
 - Simulação de fumaça (150 seeds cada, não é balanceamento): estratégia aleatória perde 100% (139 na noite 2); gananciosa vence 28/150 (19%), derrotas nas noites 2–5. Nenhuma derrota por maldição. Ver tests/simulation.test.ts (SIM_REPORT=1).
-- Não existe ainda: save/reload (P1-006), simulação com estratégias de sinergia/conservadora (P1-007), E2E Playwright versionado, áudio, arte. Nenhum asset solicitado.
+- **P1-006 feito**: `src/persistence/save.ts` grava a partida após cada ação aceita (fronteira estável), valida invariantes ao carregar e guarda save danificado ou de outra versão em `grave-credit.run.corrupt` antes de recomeçar. Verificado no navegador: recarregar no meio da animação do sino retoma o pós-noite sem pagar duas vezes. 117 testes no total.
+- Não existe ainda: simulação com estratégias de sinergia/conservadora (P1-007), E2E Playwright versionado, áudio, arte. Nenhum asset solicitado.
 
 ## Gates
 - P0-G (contratos D001–D009 e dados): aberto. P1-001 não dependia deles (D012).
@@ -20,7 +21,7 @@ Data: 2026-11-27 | Fase: P1 jogável em PR (#6), aguardando playtest | Coordena�
 ## Próxima revisão
 1. Rafael: jogar o artefato de playtest e dizer o que ficou confuso ou sem graça; revisar/mesclar o PR #6.
 2. Threads 01/09 conferem a semântica implementada (D001–D004, D019–D021) contra suas propostas; divergência vira decisão, não ajuste silencioso.
-3. Próximo código: P1-006 (save versionado e reload idempotente) e P1-007 (simulações de sinergia/conservadora com relatório).
+3. Próximo código: P1-007 (simulações de sinergia/conservadora com relatório, com a thread 08) e correções do playtest.
 
 ## Handoff incremental
 Após cada integração: ID da tarefa, commit/PR, arquivos, testes, decisões, riscos e próximo ID. Histórico completo no Git e em CHANGELOG.

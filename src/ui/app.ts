@@ -25,7 +25,16 @@ import {
   type RelicInstance,
   type RunState,
 } from '../core';
+import { loadRun, saveRun, type KeyValueStore } from '../persistence/save';
 import { NO_EFFECT_TEXT, RARITY_TEXT, RELIC_TEXT, t } from './strings';
+
+function browserStore(): KeyValueStore | null {
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+}
 
 type Mode = 'run' | 'lab';
 
@@ -85,6 +94,16 @@ export function mountApp(root: HTMLElement): void {
   let activeSeq: number | null = null;
   let flashes = new Map<number, string>();
   let notice: string | null = null;
+  const store = browserStore();
+  if (store) {
+    const loaded = loadRun(store);
+    if (loaded.status === 'ok') run = loaded.state;
+    else if (loaded.status === 'incompatible') notice = t('save.incompatible');
+    else if (loaded.status === 'corrupt') notice = t('save.corrupt');
+  }
+  const persist = () => {
+    if (store) saveRun(store, run);
+  };
   loadPreset('combo60');
 
   function emptyLab(): LabState {
@@ -189,6 +208,7 @@ export function mountApp(root: HTMLElement): void {
     }
     run = r.value;
     notice = null;
+    persist();
     return true;
   }
 
@@ -547,6 +567,7 @@ export function mountApp(root: HTMLElement): void {
   // ---------- interações ----------
   function newRun(seed: string): void {
     run = createRun(seed);
+    persist();
     sel = null;
     playback = null;
     notice = null;

@@ -2,6 +2,7 @@
 ## v0.3.0 — 2026-11-27
 - P1-002 a P1-005: resolvedor das 12 relíquias, partida completa de 5 noites e UI placeholder jogável com laboratório de combos. 105 testes, build e teste de fumaça no navegador.
 - Combo 60 virou fixture. Simulação de fumaça aleatória/gananciosa. `npm run build:single` para o artefato de playtest. Sandbox HTML provisório removido.
+- P1-006: save versionado com reload idempotente e backup de save danificado (D027).
 - DECISIONS D019–D021 (hipóteses de implementação) e A08 (anel destrói o próprio despertador).
 ## v0.2.0 — 2026-11-27
 - Nome do jogo: Grave Credit (D010). Prompt Mestre Claude 1.0 versionado; Claude substitui Codex como implementador (D011).
