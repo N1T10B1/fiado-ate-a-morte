@@ -28,7 +28,7 @@ export type NoEffectReason =
   | 'no_wake_target'
   | 'no_sacrifice';
 
-export type NightOutcome = 'complete' | 'curse_defeat' | 'truncated';
+export type NightOutcome = 'complete' | 'curse_defeat' | 'truncated' | 'balance_overflow';
 
 interface Base<T extends EventType> {
   readonly type: T;

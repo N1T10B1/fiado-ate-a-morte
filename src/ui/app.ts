@@ -227,7 +227,9 @@ export function mountApp(root: HTMLElement): void {
           ? ['x', 'A maldição chegou a 100. Eventos restantes descartados.']
           : e.outcome === 'truncated'
             ? ['x', 'Limite de ativações atingido (defeito de design).']
-            : ['m', 'Fim da resolução.'];
+            : e.outcome === 'balance_overflow'
+              ? ['x', 'Saldo passaria do teto. Noite não gravada.']
+              : ['m', 'Fim da resolução.'];
     }
   }
 
