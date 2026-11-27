@@ -1,0 +1,83 @@
+{
+  "id": "RUN-02",
+  "category": "run",
+  "title": "Tutorial: noite 1 paga o tributo exato com vela + crânio",
+  "decisions": [
+    "D001",
+    "D006"
+  ],
+  "setup": {
+    "state": {
+      "night": 1,
+      "phase": "organize",
+      "balance": 12,
+      "curse": 0,
+      "destroyedThisRun": 0,
+      "rerollCost": 2,
+      "nextId": 4,
+      "relics": [
+        {
+          "id": 1,
+          "def": "candle",
+          "row": 2,
+          "col": 1
+        },
+        {
+          "id": 2,
+          "def": "skull",
+          "row": 2,
+          "col": 2
+        },
+        {
+          "id": 3,
+          "def": "feather",
+          "row": 0,
+          "col": 4
+        }
+      ],
+      "market": [
+        {
+          "def": "skull",
+          "price": 5,
+          "sold": false
+        },
+        {
+          "def": "coin",
+          "price": 3,
+          "sold": false
+        },
+        {
+          "def": "eye",
+          "price": 12,
+          "sold": false
+        },
+        {
+          "def": "mirror",
+          "price": 8,
+          "sold": false
+        }
+      ]
+    }
+  },
+  "steps": [
+    {
+      "action": {
+        "type": "invoke"
+      },
+      "expect": {
+        "ok": true,
+        "nightGain": 10,
+        "state": {
+          "balance": 12,
+          "phase": "reward",
+          "curse": 0
+        },
+        "rewardOffers": {
+          "count": 3,
+          "distinctDefs": true
+        }
+      }
+    }
+  ],
+  "notes": "12 + 10 − 10 = 12."
+}

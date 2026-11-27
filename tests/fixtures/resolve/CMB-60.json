@@ -1,0 +1,156 @@
+{
+  "id": "CMB-60",
+  "category": "combo",
+  "title": "Combo de 60 do Prompt Mestre (A01)",
+  "decisions": [
+    "D001",
+    "D002",
+    "D003"
+  ],
+  "questions": [
+    "A01",
+    "A01b"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "skull",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": 2,
+        "def": "mirror",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": 3,
+        "def": "bell",
+        "row": 1,
+        "col": 0
+      },
+      {
+        "id": 4,
+        "def": "candle",
+        "row": 1,
+        "col": 1
+      },
+      {
+        "id": 5,
+        "def": "skull",
+        "row": 1,
+        "col": 2
+      },
+      {
+        "id": 6,
+        "def": "eye",
+        "row": 2,
+        "col": 1
+      },
+      {
+        "id": 7,
+        "def": "candle",
+        "row": 3,
+        "col": 3
+      },
+      {
+        "id": 8,
+        "def": "thread",
+        "row": 3,
+        "col": 4
+      },
+      {
+        "id": 9,
+        "def": "hourglass",
+        "row": 2,
+        "col": 4
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 4
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 7
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "COPY_EFFECT",
+        "sourceId": 2,
+        "targetId": 1,
+        "amount": 10
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 5
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 5,
+        "amount": 10
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 6
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 8
+      },
+      {
+        "type": "CHANGE_CURSE",
+        "sourceId": 8,
+        "delta": 2
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 1,
+        "amount": 20
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 9
+      },
+      {
+        "type": "REPEAT_GAIN",
+        "sourceId": 9,
+        "amount": 20
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 60,
+    "curse": 2,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  },
+  "notes": "Vela #4 desperta espelho (N), crânio #5 (L), olho (S), sino (O). Vela #7 só tem o fio como vizinho de despertar. O sino enfileira o crânio #1; o fio desperta a ampulheta (N). 10 + 10 + 20 + 20 = 60."
+}

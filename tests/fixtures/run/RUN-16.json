@@ -1,0 +1,112 @@
+{
+  "id": "RUN-16",
+  "category": "run",
+  "title": "Destruídas saem da bancada; contagem e maldição persistem entre noites",
+  "decisions": [
+    "D002",
+    "D003"
+  ],
+  "setup": {
+    "state": {
+      "night": 1,
+      "phase": "organize",
+      "balance": 0,
+      "curse": 0,
+      "destroyedThisRun": 0,
+      "rerollCost": 2,
+      "nextId": 7,
+      "relics": [
+        {
+          "id": 1,
+          "def": "candle",
+          "row": 2,
+          "col": 2
+        },
+        {
+          "id": 2,
+          "def": "ring",
+          "row": 2,
+          "col": 3
+        },
+        {
+          "id": 3,
+          "def": "coin",
+          "row": 2,
+          "col": 4
+        },
+        {
+          "id": 4,
+          "def": "tooth",
+          "row": 3,
+          "col": 2
+        },
+        {
+          "id": 5,
+          "def": "thread",
+          "row": 1,
+          "col": 2
+        },
+        {
+          "id": 6,
+          "def": "skull",
+          "row": 0,
+          "col": 2
+        }
+      ],
+      "market": [
+        {
+          "def": "skull",
+          "price": 5,
+          "sold": false
+        },
+        {
+          "def": "coin",
+          "price": 3,
+          "sold": false
+        },
+        {
+          "def": "eye",
+          "price": 12,
+          "sold": false
+        },
+        {
+          "def": "mirror",
+          "price": 8,
+          "sold": false
+        }
+      ]
+    }
+  },
+  "steps": [
+    {
+      "action": {
+        "type": "invoke"
+      },
+      "expect": {
+        "ok": true,
+        "nightGain": 37,
+        "state": {
+          "balance": 27,
+          "curse": 2,
+          "destroyedThisRun": 1,
+          "relicRemoved": 3
+        }
+      }
+    },
+    {
+      "action": {
+        "type": "chooseReward",
+        "index": null
+      },
+      "expect": {
+        "ok": true,
+        "state": {
+          "night": 2,
+          "curse": 2,
+          "destroyedThisRun": 1
+        }
+      }
+    }
+  ],
+  "notes": "Mesma bancada de DES-01. Sem queda automática de maldição."
+}

@@ -1,0 +1,76 @@
+{
+  "id": "RUN-11",
+  "category": "run",
+  "title": "Pagamento exato deixa saldo 0 e a partida segue",
+  "decisions": [
+    "D004"
+  ],
+  "setup": {
+    "state": {
+      "night": 1,
+      "phase": "organize",
+      "balance": 0,
+      "curse": 0,
+      "destroyedThisRun": 0,
+      "rerollCost": 2,
+      "nextId": 4,
+      "relics": [
+        {
+          "id": 1,
+          "def": "candle",
+          "row": 2,
+          "col": 1
+        },
+        {
+          "id": 2,
+          "def": "skull",
+          "row": 2,
+          "col": 2
+        },
+        {
+          "id": 3,
+          "def": "feather",
+          "row": 0,
+          "col": 4
+        }
+      ],
+      "market": [
+        {
+          "def": "skull",
+          "price": 5,
+          "sold": false
+        },
+        {
+          "def": "coin",
+          "price": 3,
+          "sold": false
+        },
+        {
+          "def": "eye",
+          "price": 12,
+          "sold": false
+        },
+        {
+          "def": "mirror",
+          "price": 8,
+          "sold": false
+        }
+      ]
+    }
+  },
+  "steps": [
+    {
+      "action": {
+        "type": "invoke"
+      },
+      "expect": {
+        "ok": true,
+        "nightGain": 10,
+        "state": {
+          "balance": 0,
+          "phase": "reward"
+        }
+      }
+    }
+  ]
+}

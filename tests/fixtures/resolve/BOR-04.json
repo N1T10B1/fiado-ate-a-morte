@@ -1,0 +1,73 @@
+{
+  "id": "BOR-04",
+  "category": "bordas",
+  "title": "Vela no canto (4,4): só N e O",
+  "decisions": [
+    "D001"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 4,
+        "col": 4
+      },
+      {
+        "id": 2,
+        "def": "skull",
+        "row": 3,
+        "col": 4
+      },
+      {
+        "id": 3,
+        "def": "skull",
+        "row": 4,
+        "col": 3
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 2,
+        "amount": 10
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 3,
+        "amount": 10
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 20,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  }
+}

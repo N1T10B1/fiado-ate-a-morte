@@ -1,0 +1,68 @@
+{
+  "id": "SEED-01",
+  "category": "seed",
+  "title": "Golden de sorteio de mercado (provisório, depende dos pesos D006)",
+  "decisions": [
+    "D006",
+    "D013"
+  ],
+  "weights": {
+    "comum": 60,
+    "incomum": 30,
+    "rara": 10
+  },
+  "catalogOrder": [
+    "candle",
+    "skull",
+    "coin",
+    "feather",
+    "mirror",
+    "bell",
+    "thread",
+    "tooth",
+    "eye",
+    "hourglass",
+    "book",
+    "ring"
+  ],
+  "algorithm": "Para cada oferta: nextInt(gameplay, soma dos pesos), percorre o catálogo na ordem acima acumulando o peso da raridade de cada definição.",
+  "cases": [
+    {
+      "seedText": "grave-credit-qa-01",
+      "gameplayInitial": 3950086723,
+      "market": [
+        "coin",
+        "mirror",
+        "tooth",
+        "candle"
+      ],
+      "gameplayAfterMarket": 4129288432,
+      "rerollMarket": [
+        "bell",
+        "thread",
+        "book",
+        "mirror"
+      ],
+      "gameplayAfterReroll": 2468767861
+    },
+    {
+      "seedText": "grave-credit-qa-02",
+      "gameplayInitial": 2796192909,
+      "market": [
+        "skull",
+        "thread",
+        "candle",
+        "thread"
+      ],
+      "gameplayAfterMarket": 1536670307,
+      "rerollMarket": [
+        "tooth",
+        "skull",
+        "book",
+        "candle"
+      ],
+      "gameplayAfterReroll": 4159443218
+    }
+  ],
+  "notes": "gameplayInitial confere com createStreams(hashSeedText(seedText)).gameplay em src/core/rng.ts. Mercado e reroll vêm do protótipo; regerar se pesos, ordem do catálogo ou algoritmo mudarem."
+}

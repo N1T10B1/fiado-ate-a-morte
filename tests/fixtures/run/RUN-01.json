@@ -1,0 +1,54 @@
+{
+  "id": "RUN-01",
+  "category": "run",
+  "title": "Estado inicial da partida",
+  "decisions": [
+    "D006",
+    "D008"
+  ],
+  "setup": {
+    "seedText": "grave-credit-qa-01"
+  },
+  "steps": [
+    {
+      "action": {
+        "type": "newRun",
+        "seedText": "grave-credit-qa-01"
+      },
+      "expect": {
+        "ok": true,
+        "state": {
+          "night": 1,
+          "phase": "organize",
+          "balance": 12,
+          "curse": 0,
+          "destroyedThisRun": 0,
+          "rerollCost": 2,
+          "tribute": 10,
+          "relics": [
+            {
+              "id": 1,
+              "def": "candle",
+              "row": 2,
+              "col": 1
+            },
+            {
+              "id": 2,
+              "def": "skull",
+              "row": 2,
+              "col": 2
+            },
+            {
+              "id": 3,
+              "def": "feather",
+              "row": 0,
+              "col": 4
+            }
+          ],
+          "marketSize": 4
+        }
+      }
+    }
+  ],
+  "notes": "Posições iniciais vêm do protótipo (D006: \"posições didáticas por fixture\"); IDs 1–3 na ordem vela, crânio, pena."
+}

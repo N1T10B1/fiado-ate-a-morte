@@ -1,0 +1,93 @@
+{
+  "id": "COP-04",
+  "category": "copia",
+  "title": "Cópia não consome o olho; o próximo ganho direto é dobrado",
+  "decisions": [
+    "D003"
+  ],
+  "questions": [
+    "A03"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "skull",
+        "row": 2,
+        "col": 0
+      },
+      {
+        "id": 2,
+        "def": "mirror",
+        "row": 2,
+        "col": 1
+      },
+      {
+        "id": 3,
+        "def": "eye",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": 4,
+        "def": "candle",
+        "row": 1,
+        "col": 1
+      },
+      {
+        "id": 5,
+        "def": "skull",
+        "row": 1,
+        "col": 0
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 4
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "COPY_EFFECT",
+        "sourceId": 2,
+        "targetId": 1,
+        "amount": 10
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 5
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 5,
+        "amount": 20
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 30,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "id": "RUN-13",
+  "category": "run",
+  "title": "Maldição 100 precede o pagamento mesmo com saldo",
+  "decisions": [
+    "D004"
+  ],
+  "setup": {
+    "state": {
+      "night": 2,
+      "phase": "organize",
+      "balance": 100,
+      "curse": 92,
+      "destroyedThisRun": 0,
+      "rerollCost": 2,
+      "nextId": 3,
+      "relics": [
+        {
+          "id": 1,
+          "def": "candle",
+          "row": 2,
+          "col": 2
+        },
+        {
+          "id": 2,
+          "def": "book",
+          "row": 2,
+          "col": 3
+        }
+      ],
+      "market": [
+        {
+          "def": "skull",
+          "price": 5,
+          "sold": false
+        },
+        {
+          "def": "coin",
+          "price": 3,
+          "sold": false
+        },
+        {
+          "def": "eye",
+          "price": 12,
+          "sold": false
+        },
+        {
+          "def": "mirror",
+          "price": 8,
+          "sold": false
+        }
+      ]
+    }
+  },
+  "steps": [
+    {
+      "action": {
+        "type": "invoke"
+      },
+      "expect": {
+        "ok": true,
+        "state": {
+          "phase": "over",
+          "result": "lose",
+          "loseReason": "curse",
+          "curse": 100
+        }
+      }
+    }
+  ],
+  "notes": "Saldo final (não debitado) depende de QA-Q08: o ganho da noite de derrota é creditado?"
+}

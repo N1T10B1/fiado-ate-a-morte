@@ -1,0 +1,113 @@
+{
+  "id": "RUN-09",
+  "category": "run",
+  "title": "Renovar ofertas custa 2, 3, 4 na mesma noite e volta a 2 na seguinte",
+  "decisions": [
+    "D006"
+  ],
+  "setup": {
+    "state": {
+      "night": 1,
+      "phase": "organize",
+      "balance": 9,
+      "curse": 0,
+      "destroyedThisRun": 0,
+      "rerollCost": 2,
+      "nextId": 4,
+      "relics": [
+        {
+          "id": 1,
+          "def": "candle",
+          "row": 2,
+          "col": 1
+        },
+        {
+          "id": 2,
+          "def": "skull",
+          "row": 2,
+          "col": 2
+        },
+        {
+          "id": 3,
+          "def": "feather",
+          "row": 0,
+          "col": 4
+        }
+      ],
+      "market": [
+        {
+          "def": "skull",
+          "price": 5,
+          "sold": false
+        },
+        {
+          "def": "coin",
+          "price": 3,
+          "sold": false
+        },
+        {
+          "def": "eye",
+          "price": 12,
+          "sold": false
+        },
+        {
+          "def": "mirror",
+          "price": 8,
+          "sold": false
+        }
+      ]
+    }
+  },
+  "steps": [
+    {
+      "action": {
+        "type": "reroll"
+      },
+      "expect": {
+        "ok": true,
+        "state": {
+          "balance": 7,
+          "rerollCost": 3
+        },
+        "rngAdvanced": true,
+        "cosmeticRngUnchanged": true
+      }
+    },
+    {
+      "action": {
+        "type": "reroll"
+      },
+      "expect": {
+        "ok": true,
+        "state": {
+          "balance": 4,
+          "rerollCost": 4
+        }
+      }
+    },
+    {
+      "action": {
+        "type": "reroll"
+      },
+      "expect": {
+        "ok": true,
+        "state": {
+          "balance": 0,
+          "rerollCost": 5
+        }
+      }
+    },
+    {
+      "action": {
+        "type": "reroll"
+      },
+      "expect": {
+        "ok": false,
+        "error": "insufficient_balance",
+        "stateUnchanged": true,
+        "rngUnchanged": true
+      }
+    }
+  ],
+  "notes": "Reinício para 2 na noite seguinte coberto em RUN-15."
+}

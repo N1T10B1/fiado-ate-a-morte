@@ -1,0 +1,95 @@
+{
+  "id": "ORD-08",
+  "category": "ordem",
+  "title": "Fio desperta o primeiro vizinho elegível N/L/S/O e soma +2",
+  "decisions": [
+    "D002"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 2,
+        "def": "thread",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": 3,
+        "def": "skull",
+        "row": 1,
+        "col": 3
+      },
+      {
+        "id": 4,
+        "def": "skull",
+        "row": 2,
+        "col": 4
+      },
+      {
+        "id": 5,
+        "def": "coin",
+        "row": 3,
+        "col": 3
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 5
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 5,
+        "amount": 4
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "CHANGE_CURSE",
+        "sourceId": 2,
+        "delta": 2
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 3,
+        "amount": 10
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 14,
+    "curse": 2,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  },
+  "notes": "O fio escolhe N (#3) antes de L (#4); a moeda ao S não é elegível. #4 nunca ativa."
+}

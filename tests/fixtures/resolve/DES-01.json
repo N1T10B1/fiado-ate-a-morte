@@ -1,0 +1,130 @@
+{
+  "id": "DES-01",
+  "category": "destruicao",
+  "title": "Anel destrói o primeiro vizinho vivo N/L/S/O; dente conta a destruição",
+  "decisions": [
+    "D001",
+    "D002"
+  ],
+  "questions": [
+    "QA-Q06"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 2,
+        "def": "ring",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": 3,
+        "def": "coin",
+        "row": 2,
+        "col": 4
+      },
+      {
+        "id": 4,
+        "def": "tooth",
+        "row": 3,
+        "col": 2
+      },
+      {
+        "id": 5,
+        "def": "thread",
+        "row": 1,
+        "col": 2
+      },
+      {
+        "id": 6,
+        "def": "skull",
+        "row": 0,
+        "col": 2
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 3,
+        "amount": 4
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 5
+      },
+      {
+        "type": "CHANGE_CURSE",
+        "sourceId": 5,
+        "delta": 2
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "DESTROY",
+        "sourceId": 2,
+        "targetId": 3
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 2,
+        "amount": 16
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 4
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 4,
+        "amount": 7
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 6
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 6,
+        "amount": 10
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 37,
+    "curse": 2,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": [
+      3
+    ]
+  },
+  "notes": "O anel pode destruir relíquia já ativada (a moeda)."
+}
