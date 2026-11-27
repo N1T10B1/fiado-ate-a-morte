@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Grave Credit</title>
+    <style>
+      :root {
+        --abyss: #16151c; --wood: #342a27; --gold: #b49a65; --parchment: #ded0b5;
+        --grey: #51465b; --candle: #e5b56b;
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-height: 100vh; background: var(--abyss); color: var(--parchment);
+        font-family: system-ui, sans-serif; display: flex; justify-content: center; padding: 16px; }
+      main { width: 100%; max-width: 480px; }
+      h1 { color: var(--candle); margin: 0 0 4px; font-size: 1.6rem; }
+      p { line-height: 1.4; }
+      .bench { display: grid; gap: 4px; margin: 16px 0; }
+      .cell { aspect-ratio: 1; background: var(--wood); border: 1px solid var(--grey); border-radius: 4px;
+        display: flex; align-items: center; justify-content: center; font-size: 0.75rem; color: var(--gold); }
+      code { color: var(--gold); }
+    </style>
+  </head>
+  <body>
+    <main id="app"></main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
