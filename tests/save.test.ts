@@ -78,6 +78,19 @@ describe('save', () => {
     expect(bad({ instances: { ...s.instances, 2: { relic: 'dragon' as 'skull' } } })).toBe('corrupt');
   });
 
+  it('lacunas apontadas pelo QA: desfazer, mercado e resumo da noite são validados', () => {
+    const moved = must(createRun('qa'), { type: 'move', from: { row: 2, col: 2 }, to: { row: 4, col: 4 } });
+    expect(parse(serialize(moved)).status).toBe('ok');
+    const ghost = { rows: 5, cols: 5, cells: [77, ...Array(24).fill(null)] };
+    const bad = (patch: Record<string, unknown>) => parse(serialize({ ...moved, ...patch } as RunState)).status;
+    expect(bad({ undoStack: [ghost] })).toBe('corrupt');
+    expect(bad({ market: moved.market.map((o, i) => (i === 0 ? { ...o, sold: 'yes' } : o)) })).toBe('corrupt');
+    expect(bad({ lastNight: { garbage: 1 } })).toBe('corrupt');
+    expect(bad({ lossReason: 'boredom' })).toBe('corrupt');
+    const played = must(createRun('qa'), { type: 'ring' });
+    expect(parse(serialize(played)).status).toBe('ok');
+  });
+
   it('versão de regras diferente ou schema futuro: incompatível, com backup', () => {
     const s = createRun('ver');
     const old = JSON.stringify({ schemaVersion: 1, rulesVersion: 'p0-old', state: { ...s, rulesVersion: 'p0-old' } });
