@@ -182,7 +182,6 @@ Observação de design para a thread 01: como só vela e fio despertam o anel e 
 ## 10. Não executado e riscos
 - As propriedades P-01…P-08 não ganharam testes de QA próprios; a thread de programação já tem testes de determinismo e simulação, e falta conferir se cobrem cada item.
 - E2E (P1-008) só tem escopo aqui.
-- Três lacunas de validação do save (seção 11) estão com a thread de programação; não há teste vermelho no repositório para elas.
 - Se D001–D004 mudarem na revisão do Rafael, as fixtures afetadas aparecem pelo campo `decisions` e precisam ser reescritas.
 
 ## 11. Save e reload (P1-006)
@@ -193,11 +192,11 @@ API: `saveRun`, `loadRun`, `parse` em `src/persistence/save.ts`; envelope `{sche
 | SAV-01 | 12 partidas completas por política fixa: gravar, recarregar e seguir do estado recarregado a cada passo dá o mesmo estado final que jogar sem recarga |
 | SAV-02 | as partidas passam por organização, recompensa e fim (cobertura das fases) |
 | SAV-03 | recarregar na fase de recompensa três vezes não muda opções, PRNG nem saldo (sem farm de recompensa) |
-| SAV-04 | 24 saves danificados (JSON truncado, tipos errados, `schemaVersion` 0/1,5/"1", maldição 101/−1, saldo −1/1,5/acima do teto, noite 0/6, fase desconhecida, PRNG zerado, seed ausente, ID duplicado, instância órfã, relíquia desconhecida, `nextId` baixo, grade 4×4, mercado inválido) → `corrupt`, original intacto no backup, partida nova grava |
+| SAV-04 | 28 saves danificados (undo com instância inexistente ou que não é grade, `sold` não booleano, `lastNight` sem forma, JSON truncado, tipos errados, `schemaVersion` 0/1,5/"1", maldição 101/−1, saldo −1/1,5/acima do teto, noite 0/6, fase desconhecida, PRNG zerado, seed ausente, ID duplicado, instância órfã, relíquia desconhecida, `nextId` baixo, grade 4×4, mercado inválido) → `corrupt`, original intacto no backup, partida nova grava |
 | SAV-05 | schema futuro e `rulesVersion` diferente → `incompatible`, com backup |
 | SAV-06 | falha de gravação devolve `false` e não toca no save anterior |
 
-Lacunas encontradas e enviadas à thread de programação (o `parse` aceita como `ok`):
-- `undoStack` com grade malformada: o `undo` restaura uma grade com instância inexistente e o sino seguinte lança `Instância 77 na grade sem definição`, derrubando a partida.
-- `market[].sold` que não é booleano.
+Lacunas encontradas pelo QA e corrigidas pela thread de programação (ad9691c), agora em SAV-04:
+- `undoStack` com grade malformada: o `undo` restaurava uma grade com instância inexistente e o sino seguinte derrubava a partida.
+- `market[].sold` que não era booleano.
 - `lastNight` com formato arbitrário, que a UI lê para mostrar o log.

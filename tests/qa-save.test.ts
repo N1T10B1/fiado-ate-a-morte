@@ -122,6 +122,10 @@ describe('QA — save danificado', () => {
     ['nextId não maior que os IDs', withState((s) => (s['nextId'] = 1))],
     ['grade 4×4', withState((s) => ((s['grid'] as { rows: number }).rows = 4))],
     ['mercado com relíquia desconhecida', withState((s) => (s['market'] = [{ relic: 'dragon', sold: false }]))],
+    ['undo com instância inexistente', withState((s) => (s['undoStack'] = [{ rows: 5, cols: 5, cells: [77, ...Array<null>(24).fill(null)] }]))],
+    ['undo que não é grade', withState((s) => (s['undoStack'] = ['x']))],
+    ['oferta com sold não booleano', withState((s) => ((s['market'] as { sold: unknown }[])[0]!.sold = 'yes'))],
+    ['lastNight sem forma', withState((s) => (s['lastNight'] = { garbage: 1 }))],
   ];
 
   it.each(cases)('%s → corrupt, original guardado no backup, partida nova possível', (_name, raw) => {
