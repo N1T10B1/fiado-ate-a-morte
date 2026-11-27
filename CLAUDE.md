@@ -1,6 +1,6 @@
 # Grave Credit — instruções para Claude
 
-Jogo: **Grave Credit** (D010; antigo título de trabalho "Fiado até a Morte"). Puzzle roguelite de inventário espacial, HTML5. Rafael é o diretor criativo e decide identidade, escopo e mecânica. Fonte de referência: `FIADO_ATE_A_MORTE_Prompt_Mestre_Claude.md`; o Git é a fonte oficial versionada.
+Jogo: **Grave Credit** (D010/D014; único nome em todos os idiomas, "Fiado até a Morte" é só histórico). Puzzle roguelite de inventário espacial, HTML5. Rafael é o diretor criativo e decide identidade, escopo e mecânica. Fonte de referência: `FIADO_ATE_A_MORTE_Prompt_Mestre_Claude.md`; o Git é a fonte oficial versionada.
 
 ## Antes de editar
 - Leia `docs/STATE.md` e `docs/TASKS.md`; depois só os docs que a tarefa pede. Não releia o Prompt Mestre inteiro sem motivo.

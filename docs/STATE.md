@@ -14,7 +14,7 @@ Data: 2026-11-27 | Fase: P0 aberto, P1-001 entregue em PR | Coordenação: threa
 - P1-G: não iniciado.
 
 ## Próxima revisão
-1. Rafael: revisar/mesclar o PR do P1-001 e responder às decisões pendentes em DECISIONS (D005, D007, D014).
+1. Rafael: revisar/mesclar o PR #6 (P1-001). D014, D017 (=D005) e D018 (=D007) aprovados em 2026-11-27.
 2. Threads 01/09 fecham D001–D004 com fixtures antes de P1-002.
 3. P1-002 (resolvedor: candle/skull/feather, log, prévia) começa após o merge do P1-001.
 
