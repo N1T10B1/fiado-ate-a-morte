@@ -32,6 +32,8 @@ export interface NightInput {
   readonly night: number;
   readonly maxEvents?: number;
   readonly maxBalance?: number;
+  /** Saldo antes da noite; o teto vale para saldo + ganho. */
+  readonly balance?: number;
 }
 
 export interface NightResult {
@@ -53,7 +55,7 @@ interface Status {
 
 export function resolveNight(input: NightInput): NightResult {
   const maxEvents = input.maxEvents ?? DEFAULT_CONFIG.maxEventsPerNight;
-  const maxBalance = input.maxBalance ?? DEFAULT_CONFIG.maxBalance;
+  const maxBalance = (input.maxBalance ?? DEFAULT_CONFIG.maxBalance) - (input.balance ?? 0);
   const cells = input.grid.cells.slice();
   const grid = (): Grid => ({ rows: input.grid.rows, cols: input.grid.cols, cells });
   const relicOf = (id: InstanceId): RelicId => {
@@ -91,8 +93,11 @@ export function resolveNight(input: NightInput): NightResult {
     st(id).reserved = true;
     queue.push({ id, by });
   };
+  // Overflow nunca é truncado em silêncio (ARCHITECTURE): a noite para com outcome explícito.
+  let overflow = false;
   const credit = (amount: number): void => {
-    gain = Math.min(maxBalance, gain + amount);
+    if (gain + amount > maxBalance) overflow = true;
+    else gain += amount;
   };
   const directGain = (sourceId: InstanceId, base: number): void => {
     const abyssBonus = ABYSS_GAIN_RELICS.includes(relicOf(sourceId))
@@ -216,6 +221,10 @@ export function resolveNight(input: NightInput): NightResult {
       }
     }
 
+    if (overflow) {
+      outcome = 'balance_overflow';
+      break;
+    }
     if (curse >= DEFAULT_CONFIG.curseMax) {
       outcome = 'curse_defeat';
       break;

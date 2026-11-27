@@ -72,7 +72,9 @@ export type ActionError =
   | 'cell_empty'
   | 'out_of_bounds'
   | 'nothing_to_undo'
-  | 'invalid_reward';
+  | 'invalid_reward'
+  | 'balance_overflow'
+  | 'resolution_truncated';
 
 // ---------- PRNG de gameplay ----------
 function drawRelic(rng: RngState, cfg: RunConfig, exclude: readonly RelicId[] = []): { relic: RelicId; rng: RngState } {
@@ -151,6 +153,7 @@ export function previewNight(state: RunState, cfg: RunConfig = DEFAULT_CONFIG): 
     night: state.night,
     maxEvents: cfg.maxEventsPerNight,
     maxBalance: cfg.maxBalance,
+    balance: state.balance,
   });
 }
 
@@ -207,9 +210,11 @@ export function applyAction(
       const inst = state.instances[r.value.id] as RelicInstance;
       const instances = { ...state.instances };
       delete instances[r.value.id];
+      const credited = state.balance + sellPrice(inst.relic);
+      if (credited > cfg.maxBalance) return err('balance_overflow');
       return ok({
         ...state,
-        balance: Math.min(cfg.maxBalance, state.balance + sellPrice(inst.relic)),
+        balance: credited,
         grid: r.value.grid,
         instances,
         undoStack: [],
@@ -228,9 +233,14 @@ export function applyAction(
         undoStack: [],
       });
     }
-    case 'ring':
+    case 'ring': {
       if (!organizing) return err('wrong_phase');
+      // Noite truncada ou com overflow é defeito: nada é gravado, o estado fica como antes do sino.
+      const res = previewNight(state, cfg);
+      if (res.outcome === 'truncated') return err('resolution_truncated');
+      if (res.outcome === 'balance_overflow') return err('balance_overflow');
       return ok(settleNight(state, cfg));
+    }
     case 'chooseReward':
     case 'skipReward': {
       if (state.phase !== 'reward') return err('wrong_phase');
@@ -271,7 +281,7 @@ function settleNight(state: RunState, cfg: RunConfig): RunState {
   const tribute = tributeFor(state, cfg);
   const instances = { ...state.instances };
   for (const id of res.destroyedIds) delete instances[id];
-  const balanceAfterGain = Math.min(cfg.maxBalance, state.balance + res.gain);
+  const balanceAfterGain = state.balance + res.gain; // teto já verificado no resolvedor
   const base = {
     ...state,
     grid: res.grid,
