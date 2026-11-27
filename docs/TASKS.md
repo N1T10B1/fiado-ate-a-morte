@@ -19,7 +19,7 @@ Substitui `tasks/THREADS.md` e `tasks/CODEX-001.md` (mantidos como histórico). 
 | P1-003 | 02 | **feito (PR #6)** | P1-002 | idem | 12 relíquias; combo 60 como fixture (`tests/resolve.test.ts`) |
 | P1-004 | 02 | **feito (PR #6)** | P1-003 | src/core/run.ts, tests/run.test.ts | mercado, tributo, maldição, recompensas, 5 noites, vitória/derrota, replay, sem duplicação |
 | P1-005 | 02 | **feito (PR #6)**, revisão UX pendente | P1-002 | src/ui/app.ts, src/ui/style.css, src/ui/strings.ts | UI placeholder jogável, toque/teclado, prévia, log, velocidades; thread 05 revisa contra UX.md |
-| P1-006 | 02 + 09 | aguardando | P1-004 | src/persistence/** | save versionado, reload idempotente |
+| P1-006 | 02 | **feito (PR #6)** | P1-004 | src/persistence/save.ts, tests/save.test.ts, src/ui/app.ts | save versionado em localStorage, validação de invariantes, backup de save danificado/incompatível, reload sem pagar duas vezes |
 | P1-007 | 08 + 09 | parcial | P1-004 | tests/simulation.test.ts, docs/BALANCE.md | fumaça aleatória/gananciosa feita; faltam sinergia/conservadora, milhares de seeds e relatório |
 | P1-008 | 09 + Rafael | aguardando | P1-005/006/007 | docs/PLAYTEST.md | playtest e E2E conforme ambiente |
 
@@ -27,7 +27,7 @@ Substitui `tasks/THREADS.md` e `tasks/CODEX-001.md` (mantidos como histórico). 
 `npm run build:single` gera `dist-single/grave-credit.html` (build real, um arquivo). É o que está publicado como artefato para o Rafael. O sandbox HTML anterior foi removido: o jogo agora roda o motor de `src/core`.
 
 ## Paralelismo agora
-Podem rodar ao mesmo tempo, em arquivos exclusivos: 01, 03, 05, 06, 07, 08, 09 (todas em docs próprios). 04 começa depois de um rascunho da 03. 02 segue em P1-006 (save). 08 e 09 já podem usar `src/core/run.ts` (`replay`, `previewNight`) para simulações e fixtures. Só a 02 altera `src/core/`; só a 00 altera STATE, TASKS e o status das decisões.
+Podem rodar ao mesmo tempo, em arquivos exclusivos: 01, 03, 05, 06, 07, 08, 09 (todas em docs próprios). 04 começa depois de um rascunho da 03. 02 segue em P1-007 com 08 (simulações) e no apoio ao playtest (P1-008). 08 e 09 já podem usar `src/core/run.ts` (`replay`, `previewNight`) para simulações e fixtures. Só a 02 altera `src/core/`; só a 00 altera STATE, TASKS e o status das decisões.
 
 ## Mensagens de inicialização (threads 01–09)
 Base comum a todas: "Projeto Grave Credit, repositório N1T10B1/fiado-ate-a-morte. Leia primeiro `CLAUDE.md` e `docs/STATE.md`. Trabalhe só nos arquivos da sua tarefa em `docs/TASKS.md`, numa branch própria, e abra PR. Não aprove decisões: proponha. Termine com o relatório de 7 campos do CLAUDE.md."
@@ -35,7 +35,7 @@ Base comum a todas: "Projeto Grave Credit, repositório N1T10B1/fiado-ate-a-mort
 | Thread | Lê | Mensagem |
 |---|---|---|
 | 01 — Game design | GDD, DECISIONS, ARCHITECTURE (contratos) | "Você é a thread de game design. Execute P0-02a: formalize gatilhos, ordem de efeitos, tags, raridades, preços e pesos das 12 relíquias e responda A01–A07 (incl. A01b) do GDD. Não amplie o catálogo. Leve ao Rafael só mudanças de mecânica." |
-| 02 — Programação | ARCHITECTURE, DECISIONS (D001–D004, D008, D013, D019–D021), src/core | "Você é a thread de programação. Execute P1-006: save versionado em localStorage com checkpoint estável, reload idempotente e migração. Única dona de src/core." |
+| 02 — Programação | ARCHITECTURE, DECISIONS (D001–D004, D008, D013, D019–D021), src/core | "Você é a thread de programação. P1-001 a P1-006 estão feitos; apoie P1-007/P1-008 e corrija defeitos do playtest. Única dona de src/core." |
 | 03 — Direção de arte | GDD (seção UX/arte), seção 4 do Prompt Mestre Claude | "Você é a thread de direção de arte. Execute P0-04: escreva docs/ART_BIBLE.md (escala, luz, silhuetas, materiais, paleta, folha de referência, proibições). Não gere imagens." |
 | 04 — Assets | ART_BIBLE (rascunho), ASSET_REQUESTS, seção 8.1 do Prompt Mestre Claude | "Você é a thread de assets. Execute P0-05: schema de docs/ASSET_MANIFEST.json, checklist de recepção e 3–5 pedidos de amostra em rascunho no formato do ASSET_REQUESTS. Nada é enviado ao ChatGPT antes do gate P1." |
 | 05 — UX | GDD, ARCHITECTURE (contratos de grade e eventos) | "Você é a thread de UX. Execute P0-06: docs/UX.md com wireframes 360 px e desktop, fluxo toque/teclado, prévia, log, estados inválidos e acessibilidade. Placeholders apenas." |

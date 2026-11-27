@@ -18,6 +18,7 @@ TypeScript estrito + Vite + DOM/CSS responsivo; Canvas 2D só para efeitos opcio
 | `src/core/resolve.ts` | `resolveNight(input) → {events, gain, curse, destroyedIds, outcome, grid}` puro, sem PRNG |
 | `src/core/run.ts` | `RunState` serializável, `createRun(seed)`, `applyAction(state, action) → Result`, `previewNight`, `replay(seed, actions)` |
 | `src/ui/app.ts`, `strings.ts`, `style.css` | UI DOM placeholder; reproduz o log, nunca aplica regra |
+| `src/persistence/save.ts` | save versionado, validação de invariantes, backup de save danificado, `KeyValueStore` injetável |
 | `scripts/build-single.mjs` | build em arquivo único para playtest |
 
 Pureza: `tsconfig.core.json` compila `src/core` sem lib DOM; `tests/core-purity.test.ts` proíbe `Math.random`, relógio, DOM, storage, timers e imports fora do core.
