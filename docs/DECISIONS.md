@@ -31,3 +31,15 @@ Pontos de revisão: D002/D003 precisam de fixture real do combo 60; se impossív
 
 | D017 | APROVADA | D005 (escopo): em P1, maldição implementa só os bônus por faixa e a derrota em 100; bloqueio de célula (60–89) e consumo de relíquia (90–99) ficam para P2. | Rafael, 2026-11-27 |
 | D018 | APROVADA | D007 (escopo): em P1, a quinta noite usa tributo normal (100), vitória após o pagamento, sem modificador especial e sem recompensa final. Modificador da última noite volta em P2. | Rafael, 2026-11-27 |
+
+## v0.3.0-proposta — 2026-11-27 (thread 01, P0-02a)
+Detalham D001–D004/D006/D009 para tirar ambiguidade; texto normativo em `docs/RULES.md` e `docs/RELICS.md`. Todas conferidas contra o motor do sandbox. A numeração pode ser ajustada pela 00 se outra thread usou os mesmos números.
+
+| ID | Status | Proposta | Evidência |
+|---|---|---|---|
+| D019 | PROPOSTA | Resolução: só ativações entram na fila; efeitos da ativação são aplicados na hora, na ordem da definição. Instância enfileirada fica reservada; item de instância destruída ou já ativada é descartado sem evento. Limite de 256 conta itens retirados da fila; inalcançável no P1 (máx. 25), testado com limite injetável. | RULES §3; fixtures C4, S1, A3, X1 |
+| D020 | PROPOSTA (mecânica) | Espelho copia ganho-base estático (crânio 10, moeda 4, livro 18) da célula a oeste, qualquer que seja o estado do alvo vivo (A01b). Cópia sem bônus, sem olho, sem maldição, não repetível. | E1–E5, A01 |
+| D021 | PROPOSTA (contrato) | Log ganha `ARM` (olho) e `FIZZLE` (efeito sem alvo, com motivo); `END_NIGHT` ganha `outcome: ok/defeat/truncated`; `ACTIVATE` despertado traz `causeSeq`. Implementação é da thread 02. | RULES §7 |
+| D022 | PROPOSTA | Tabela de raridade/preço/peso: comuns 60 (vela 4, crânio 5, moeda 3, pena 4); incomuns 30 (espelho 8, sino 7, fio 7, dente 8); raras 10 (olho 12, ampulheta 13, livro 11, anel 11). Tag mecânica `abissal` só no livro; arquétipos são rótulos sem efeito no P1. | RELICS tabela 1 |
+| D023 | PROPOSTA (mecânica) | Anel destrói o primeiro vizinho ocupado em N/L/S/O, de qualquer definição e estado, inclusive quem o despertou; destruição é permanente na partida. Consequência: no P1 o anel sempre tem alvo. Fio aplica +2 mesmo sem alvo (A04). | A1–A3, F2, RELICS 3.1 |
+| D024 | PROPOSTA | Mercado e recompensa: 4 ofertas com reposição por noite; renovação 2, 3, 4… re-sorteia os 4 espaços e volta a 2 na noite seguinte; compra em célula vazia escolhida; venda de qualquer relíquia por max(1, floor(preço/2)), não conta como destruída; recompensa = 3 definições distintas, sem reposição, só com célula vazia (A07); PRNG consumido só por mercado, renovação e recompensa. | RULES §5 |

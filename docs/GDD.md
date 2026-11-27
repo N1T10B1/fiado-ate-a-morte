@@ -23,7 +23,7 @@ Preparação → mercado → organização → prévia → invocação → resol
 | coin | Moeda de velório | Início: +4 |
 | thread | Fio de mortalha | Despertar: desperta vizinho elegível inativo N/E/S/O; +2 maldição |
 
-Arquétipos: necromancia, reflexão, abismo (prioritários), purificação, devoração, temporal. 24 relíquias após validação; 100 somente após vertical slice e se justificado. A cadeia de 60 do mestre é hipótese a provar com fixture válida, não resultado garantido. Raridades, tags, preços exatos e pesos pendentes D006.
+Arquétipos: necromancia, reflexão, abismo (prioritários), purificação, devoração, temporal. 24 relíquias após validação; 100 somente após vertical slice e se justificado. A cadeia de 60 do mestre é hipótese a provar com fixture válida, não resultado garantido. Raridades, tags, preços e pesos propostos em `docs/RELICS.md` (D022); efeitos formais lá e em `docs/RULES.md`.
 
 ## Resolução
 Snapshot da bancada; fila FIFO determinística; início em ordem de leitura; efeitos derivados no fim; vizinhos N/E/S/O, desempate ID; objetos destruídos não ativam depois; uma ativação padrão, duas somente por reativação explícita. Cópia sem recursão; repetição sem repetir repetição; máximo defensivo 256 eventos/noite, truncamento é defeito. Prévia sem alterar estado ou consumir seed; produção determinada exata, resultados incertos como faixa/condições. Sem dependência de FPS. Semântica operacional em ARCHITECTURE e propostas D001–D005.
@@ -40,12 +40,13 @@ P1: partida completa, derrota/vitória/reinício, sem arte final, determinismo e
 ## Aprovação pendente
 D001–D009 em DECISIONS. Nenhum preço exato, peso de sorteio, taxa de vitória ou resultado de playtest validado. GDD não substitui o mestre onde omisso.
 
-## Ambiguidades abertas (para thread 01, P0-02a)
-- **A01 — combo 60 (resolvido no protótipo).** Uma vela só desperta 4 vizinhos e a cadeia precisa de 5. Disposição válida com as regras D001–D004: crânio (0,0), espelho (0,1), sino (1,0), vela (1,1), crânio (1,2), olho (2,1), vela (3,3), fio (3,4), ampulheta (2,4) ⇒ 10 + 10 + 20 + 20 = **60**, maldição +2. Verificado em `prototypes/sandbox-p1.html` (exemplo "Combo de 60"); vira fixture de teste em P1-003.
-- **A01b —** O espelho copia o ganho-base estático da relíquia à esquerda mesmo que ela ainda esteja inativa (D003 implica que sim)? Isso decide se a disposição acima funciona.
-- **A02 —** Vela desperta relíquias com gatilho de início (moeda, pena, outra vela)? Proposta D001: não.
-- **A03 —** Ganho copiado pelo espelho conta como "ganho direto" para o olho e a ampulheta? Proposta D003: não para o olho; a ampulheta repete só ganho direto creditado.
-- **A04 —** Fio sem alvo ainda aplica +2 maldição? Proposta D002: sim (a confirmar).
-- **A05 —** Ganho do livro (+18) é creditado antes da maldição (+8) quando a maldição chega a 100? Proposta D004: ganho, depois maldição, derrota imediata ao atingir 100; o ganho não salva a partida.
-- **A06 —** Faixa congelada na invocação: um livro que leva a maldição de 25 a 33 não ativa o bônus de 25% na mesma noite. Confirmar que é o comportamento desejado.
-- **A07 —** Recompensa pós-pagamento com bancada cheia: oferecer só recompensas não espaciais ou nenhuma? Proposta D006: nenhuma relíquia, recusa sempre possível.
+## Ambiguidades A01–A07 (respondidas em P0-02a, propostas)
+Regras completas em `docs/RULES.md`; catálogo, critérios e fixtures em `docs/RELICS.md`. Respostas ainda são PROPOSTA (D019–D024) até o gate P0-G.
+- **A01 — combo 60.** Válido com duas velas e um fio: crânio (0,0), espelho (0,1), sino (1,0), vela (1,1), crânio (1,2), olho (2,1), vela (3,3), fio (3,4), ampulheta (2,4) ⇒ 10 + 10 + 20 + 20 = **60**, maldição +2. Fixture A01 em RELICS.
+- **A01b — sim.** O espelho copia o ganho-base estático da relíquia a oeste em qualquer estado (inativa, reservada ou ativada), desde que viva (D020). É o que torna A01 possível.
+- **A02 — não.** Vela só desperta relíquias de gatilho DESPERTAR; relíquias de INÍCIO ativam pela fila inicial (fixture C3).
+- **A03 — não.** Cópia não conta como ganho direto: não gasta ficha do olho e não é repetida pela ampulheta (O4, H4).
+- **A04 — sim.** Fio sem alvo ainda soma +2 de maldição (F2).
+- **A05 —** Ganho do livro é creditado antes da maldição; se a maldição chega a 100, derrota imediata e o ganho não salva a partida (L8).
+- **A06 — sim.** Faixa fixada no toque do sino, tanto subindo quanto descendo (L9, P3).
+- **A07 —** Bancada cheia: nenhuma recompensa, a tela explica e o jogador segue. P1 não tem recompensas não espaciais.
