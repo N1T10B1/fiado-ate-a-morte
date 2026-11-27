@@ -13,7 +13,8 @@
     "preview": "vite preview",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.core.json --noEmit && tsc -p tsconfig.test.json --noEmit",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "build:single": "npm run build && node scripts/build-single.mjs"
   },
   "devDependencies": {
     "@types/node": "22.20.7",
