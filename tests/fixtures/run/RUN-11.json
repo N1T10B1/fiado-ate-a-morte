@@ -61,7 +61,7 @@
   "steps": [
     {
       "action": {
-        "type": "invoke"
+        "type": "ring"
       },
       "expect": {
         "ok": true,

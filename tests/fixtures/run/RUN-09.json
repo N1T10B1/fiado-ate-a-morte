@@ -103,7 +103,7 @@
       },
       "expect": {
         "ok": false,
-        "error": "insufficient_balance",
+        "error": "insufficient_funds",
         "stateUnchanged": true,
         "rngUnchanged": true
       }

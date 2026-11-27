@@ -62,8 +62,10 @@
     {
       "action": {
         "type": "sell",
-        "row": 2,
-        "col": 2
+        "at": {
+          "row": 2,
+          "col": 2
+        }
       },
       "expect": {
         "ok": true,
@@ -77,8 +79,10 @@
     {
       "action": {
         "type": "sell",
-        "row": 2,
-        "col": 2
+        "at": {
+          "row": 2,
+          "col": 2
+        }
       },
       "expect": {
         "ok": false,

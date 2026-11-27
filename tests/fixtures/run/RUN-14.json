@@ -55,14 +55,13 @@
   "steps": [
     {
       "action": {
-        "type": "invoke"
+        "type": "ring"
       },
       "expect": {
         "ok": true,
         "nightGain": 10,
         "state": {
-          "phase": "over",
-          "result": "win",
+          "phase": "won",
           "balance": 0
         },
         "rewardOffers": {

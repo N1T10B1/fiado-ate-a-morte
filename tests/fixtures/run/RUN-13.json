@@ -55,14 +55,13 @@
   "steps": [
     {
       "action": {
-        "type": "invoke"
+        "type": "ring"
       },
       "expect": {
         "ok": true,
         "state": {
-          "phase": "over",
-          "result": "lose",
-          "loseReason": "curse",
+          "phase": "lost",
+          "lossReason": "curse",
           "curse": 100
         }
       }

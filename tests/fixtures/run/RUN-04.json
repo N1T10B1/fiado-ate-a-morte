@@ -62,13 +62,15 @@
     {
       "action": {
         "type": "buy",
-        "slot": 2,
-        "row": 0,
-        "col": 0
+        "offer": 2,
+        "at": {
+          "row": 0,
+          "col": 0
+        }
       },
       "expect": {
         "ok": false,
-        "error": "insufficient_balance",
+        "error": "insufficient_funds",
         "stateUnchanged": true,
         "rngUnchanged": true
       }

@@ -80,7 +80,7 @@
   "steps": [
     {
       "action": {
-        "type": "invoke"
+        "type": "ring"
       },
       "expect": {
         "ok": true,
@@ -95,8 +95,7 @@
     },
     {
       "action": {
-        "type": "chooseReward",
-        "index": null
+        "type": "skipReward"
       },
       "expect": {
         "ok": true,

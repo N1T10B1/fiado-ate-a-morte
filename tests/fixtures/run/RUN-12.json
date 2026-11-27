@@ -55,15 +55,14 @@
   "steps": [
     {
       "action": {
-        "type": "invoke"
+        "type": "ring"
       },
       "expect": {
         "ok": true,
         "nightGain": 10,
         "state": {
-          "phase": "over",
-          "result": "lose",
-          "loseReason": "tribute",
+          "phase": "lost",
+          "lossReason": "tribute",
           "balance": 21
         }
       }
