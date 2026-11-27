@@ -3,3 +3,7 @@ export * from './grid';
 export * from './rng';
 export * from './queue';
 export * from './events';
+export * from './relics';
+export * from './config';
+export * from './resolve';
+export * from './run';

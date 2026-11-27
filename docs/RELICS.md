@@ -1,5 +1,5 @@
 # Catálogo de relíquias — Grave Credit P1
-v0.3.0-proposta | 2026-11-27 | thread 01 (P0-02a) | status: **PROPOSTA** (D019–D024) até o gate P0-G
+v0.3.1-proposta | 2026-11-27 | thread 01 (P0-02a) | status: **PROPOSTA** (D019–D025) até o gate P0-G
 
 Doze relíquias, sem ampliar o catálogo. Regras gerais de fila, ganho direto, cópia, repetição e maldição em `docs/RULES.md` (citado como §). Coordenadas `(linha,coluna)` base zero; vizinhos em N, L, S, O.
 
@@ -34,14 +34,14 @@ Cada efeito roda na ordem listada, imediatamente, dentro da ativação (§3.5–
 | skull | Ganho direto 10. | — |
 | coin | Ganho direto 4. | — |
 | feather | Maldição −5 (mínimo 0). | Com maldição 0 emite `CHANGE_CURSE` com delta 0. |
-| mirror | Lê a célula imediatamente a oeste `(l, c−1)`. Se tiver relíquia viva cuja definição tenha ganho-base copiável (crânio 10, moeda 4, livro 18), cópia desse valor, **qualquer que seja o estado do alvo** (inativo, reservado ou ativado). | Coluna 0, célula vazia ou definição sem ganho-base: `FIZZLE`. |
-| bell | Percorre a bancada em ordem de leitura e desperta cada crânio elegível. | Nenhum crânio elegível: `FIZZLE`. |
-| eye | Acrescenta uma ficha ao fim da fila de fichas (`ARM`). A ficha dobra o próximo ganho direto da noite, de qualquer relíquia. | Ficha não usada some no fim da noite. |
-| hourglass | Se já houve ganho direto nesta noite, repetição do último ganho direto (valor final, já com bônus e olho). | Nenhum ganho direto antes: `FIZZLE`. |
+| mirror | Lê a célula imediatamente a oeste `(l, c−1)`. Se tiver relíquia viva cuja definição tenha ganho-base copiável (crânio 10, moeda 4, livro 18), cópia desse valor, **qualquer que seja o estado do alvo** (inativo, reservado ou ativado). | Coluna 0, célula vazia ou definição sem ganho-base: `NO_EFFECT`. |
+| bell | Percorre a bancada em ordem de leitura e desperta cada crânio elegível. | Nenhum crânio elegível: `NO_EFFECT`. |
+| eye | Acrescenta uma ficha ao fim da fila de fichas (`ARM_MULTIPLIER`). A ficha dobra o próximo ganho direto da noite, de qualquer relíquia. | Ficha não usada some no fim da noite. |
+| hourglass | Se já houve ganho direto nesta noite, repetição do último ganho direto (valor final, já com bônus e olho). | Nenhum ganho direto antes: `NO_EFFECT`. |
 | book | Ganho direto 18 (abissal); depois maldição +8. | Se a maldição chegar a 100, derrota na hora (§4.4). |
-| ring | Alvo = primeiro vizinho em N, L, S, O com relíquia viva, em qualquer estado e de qualquer definição. Destrói o alvo (`DESTROY`, +1 em destruídas na partida, sai da bancada para sempre); depois ganho direto 16. | Sem vizinho ocupado: `FIZZLE`, sem ganho. Ver nota 3.1. |
+| ring | Alvo = primeiro vizinho em N, L, S, O com relíquia viva, em qualquer estado e de qualquer definição. Destrói o alvo (`DESTROY`, +1 em destruídas na partida, sai da bancada para sempre); depois ganho direto 16. | Sem vizinho ocupado: `NO_EFFECT`, sem ganho. Ver nota 3.1. |
 | tooth | Ganho direto `4 + 3 × destruídas na partida`, contando destruições anteriores nesta mesma noite. Vendas não contam. | — |
-| thread | Alvo = primeiro vizinho em N, L, S, O elegível para despertar; desperta. Depois maldição +2, **mesmo sem alvo**. | Sem alvo: `FIZZLE`, e a maldição +2 acontece. |
+| thread | Alvo = primeiro vizinho em N, L, S, O elegível para despertar; desperta. Depois maldição +2, **mesmo sem alvo**. | Sem alvo: `NO_EFFECT`, e a maldição +2 acontece. |
 
 ## 3. Notas de design (consequências das regras)
 3.1. **O anel sempre tem alvo no P1.** Só vela e fio despertam o anel (o sino desperta só crânios), e ambos são vizinhos dele. Então o anel sempre destrói algo, e destrói quem o despertou se esse for o primeiro vizinho ocupado em N, L, S, O. O ramo "sem alvo" só é testável chamando a resolução com estado sintético. É uma escolha de posicionamento, não um defeito, mas a prévia precisa destacar o alvo.
@@ -53,7 +53,7 @@ Cada efeito roda na ordem listada, imediatamente, dentro da ativação (§3.5–
 Uma relíquia está aceita em P1-002/P1-003 quando todas as fixtures dela abaixo passam com log idêntico ao esperado, a descrição em `src/ui/strings.ts` diz o mesmo que a linha da tabela 2, e o alcance mostrado na prévia corresponde às células que o efeito examina (vela/fio/anel: 4 vizinhos; espelho: célula a oeste; sino: todos os crânios).
 
 ## 5. Fixtures descritas
-Formato: bancada (só as células ocupadas), maldição no sino, destruídas antes da noite → ganho da noite, maldição final, e o trecho do log que prova a regra. IDs de instância seguem a ordem em que as relíquias aparecem na coluna Bancada (a primeira é #1). Todos os resultados foram conferidos em 2026-11-27 rodando o motor de `prototypes/sandbox-p1.html` em Node; a thread 09 transforma estas descrições em arquivos em `tests/fixtures/`.
+Formato: bancada (só as células ocupadas), maldição no sino, destruídas antes da noite → ganho da noite, maldição final, e o trecho do log que prova a regra. IDs de instância seguem a ordem em que as relíquias aparecem na coluna Bancada (a primeira é #1). Todos os resultados (ganho, maldição, destruídas, desfecho) foram conferidos em 2026-11-27 em dois motores, o do sandbox HTML e `src/core/resolve.ts` (branch do PR #6), com resultado idêntico; a thread 09 transforma estas descrições em arquivos em `tests/fixtures/`.
 
 | ID | Prova | Bancada | Mald. / destr. | Ganho | Mald. final | Log essencial |
 |---|---|---|---|---|---|---|
@@ -68,21 +68,21 @@ Formato: bancada (só as células ocupadas), maldição no sino, destruídas ant
 | P1 | Pena no mínimo | pena(0,0) | 3 / 0 | 0 | 0 | maldição 3 → 0 |
 | P3 | Faixa congelada ao descer (A06) | pena(0,0) vela(2,2) livro(2,3) | 32 / 0 | 22 | 35 | pena 32→27; livro ainda recebe +25% (18+4) |
 | E1 | Espelho copia alvo inativo (A01b) | vela(1,2) espelho(2,2) crânio(2,1) | 0 / 0 | 10 | 0 | `COPY_EFFECT` 10; crânio nunca ativa |
-| E2 | Espelho na coluna 0 | vela(2,1) espelho(2,0) | 0 / 0 | 0 | 0 | `FIZZLE` |
+| E2 | Espelho na coluna 0 | vela(2,1) espelho(2,0) | 0 / 0 | 0 | 0 | `NO_EFFECT` |
 | E3 | Espelho no livro sem bônus nem maldição | vela(1,2) espelho(2,2) livro(2,1) | 60 / 0 | 18 | 60 | cópia 18, nenhum `CHANGE_CURSE` |
-| E4 | Espelho não copia dente | vela(1,2) espelho(2,2) dente(2,1) | 0 / 2 | 0 | 0 | `FIZZLE` |
+| E4 | Espelho não copia dente | vela(1,2) espelho(2,2) dente(2,1) | 0 / 2 | 0 | 0 | `NO_EFFECT` |
 | E5 | Espelho copia moeda já ativada | vela(1,2) espelho(2,2) moeda(2,1) | 0 / 0 | 8 | 0 | +4 moeda, cópia 4 |
 | S1 | Sino sem duplicar | vela(2,2) sino(2,3) crânios (0,0)(4,4)(2,1) | 0 / 0 | 30 | 0 | crânio(2,1) já reservado pela vela; sino desperta (0,0) e (4,4) |
-| S2 | Sino sem crânio | vela(2,2) sino(2,3) | 0 / 0 | 0 | 0 | `FIZZLE` |
-| O1 | Olho antes | vela(2,2) olho(1,2) crânio(2,3) | 0 / 0 | 20 | 0 | `ARM`; crânio 10×2 |
+| S2 | Sino sem crânio | vela(2,2) sino(2,3) | 0 / 0 | 0 | 0 | `NO_EFFECT` |
+| O1 | Olho antes | vela(2,2) olho(1,2) crânio(2,3) | 0 / 0 | 20 | 0 | `ARM_MULTIPLIER`; crânio 10×2 |
 | O2 | Olho depois | vela(2,2) crânio(2,3) olho(2,1) | 0 / 0 | 10 | 0 | ficha não usada |
 | O3 | Dois olhos, fichas em fila | vela(2,2) olhos (1,2)(2,3) sino(3,2) crânios (0,0)(0,4)(4,4) | 0 / 0 | 50 | 0 | 20, 20, 10: uma ficha por ganho, sem ×4 |
 | O4 | Olho ignora cópia (A03) | vela(2,2) olho(1,2) espelho(3,2) crânio(3,1) sino(2,1) | 0 / 0 | 30 | 0 | cópia 10 não gasta ficha; crânio depois 20 |
 | O5 | Olho dobra anel | vela(2,2) olho(1,2) anel(2,3) moeda(2,4) | 0 / 0 | 36 | 0 | moeda +4; anel destrói moeda, 16×2 |
 | H1 | Ampulheta | vela(2,2) crânio(1,2) ampulheta(2,3) | 0 / 0 | 20 | 0 | `REPEAT_GAIN` 10 |
-| H2 | Ampulheta sem ganho | vela(2,2) ampulheta(2,3) | 0 / 0 | 0 | 0 | `FIZZLE` |
+| H2 | Ampulheta sem ganho | vela(2,2) ampulheta(2,3) | 0 / 0 | 0 | 0 | `NO_EFFECT` |
 | H3 | Duas ampulhetas | vela(2,2) crânio(1,2) ampulhetas (2,3)(3,2) | 0 / 0 | 30 | 0 | ambas repetem 10, nenhuma repete a outra |
-| H4 | Ampulheta ignora cópia | vela(2,2) espelho(1,2) crânio(1,1) ampulheta(2,3) | 0 / 0 | 10 | 0 | cópia 10; ampulheta `FIZZLE` |
+| H4 | Ampulheta ignora cópia | vela(2,2) espelho(1,2) crânio(1,1) ampulheta(2,3) | 0 / 0 | 10 | 0 | cópia 10; ampulheta `NO_EFFECT` |
 | H5 | Ampulheta repete valor dobrado | vela(2,2) olho(1,2) crânio(2,3) ampulheta(3,2) | 0 / 0 | 40 | 0 | crânio 20; repetição 20 sem novo ×2 |
 | L1–L6 | Fronteiras do bônus | vela(2,2) livro(2,3) | 0 / 29 / 30 / 59 / 60 / 89 | 18 / 18 / 22 / 22 / 27 / 27 | +8 | bônus 0, 0, +4, +4, +9, +9 |
 | L7 | Abismo + olho | vela(2,2) olho(1,2) livro(2,3) | 90 / 0 | 72 | 98 | (18+18)×2; bônus antes do olho |
@@ -95,9 +95,9 @@ Formato: bancada (só as células ocupadas), maldição no sino, destruídas ant
 | D2 | Dente com histórico | vela(2,2) dente(2,3) | 0 / 3 | 13 | 0 | 4 + 3×3 |
 | D3 | Dente conta destruição da mesma noite | vela(2,2) anel(2,3) crânio(1,3) dente(2,1) | 0 / 0 | 23 | 0 | anel destrói crânio, +16; dente 4+3×1 |
 | F1 | Fio desperta | vela(2,1) fio(2,2) crânio(2,3) | 0 / 0 | 10 | 2 | maldição +2 antes do crânio ativar |
-| F2 | Fio sem alvo (A04) | vela(2,1) fio(2,2) | 0 / 0 | 0 | 2 | `FIZZLE`, depois +2 |
+| F2 | Fio sem alvo (A04) | vela(2,1) fio(2,2) | 0 / 0 | 0 | 2 | `NO_EFFECT`, depois +2 |
 | F3 | Fio leva a 100 | vela(2,1) fio(2,2) crânio(2,3) | 98 / 0 | — | 100 | derrota; crânio enfileirado é descartado |
-| X1 | Limite 256/257 | estado sintético com limite injetado | — | — | — | 256 itens processam; 257º gera `truncated`, sem crédito |
+| X1 | Limite 256/257 | estado sintético com `maxEvents` injetado | — | — | — | N ativações processam; a N+1ª gera `outcome: truncated`, sem crédito |
 
-## 6. Divergências conhecidas com o sandbox
-O sandbox é ferramenta de playtest (ver `docs/TASKS.md`). Diferenças em relação a este texto, todas sem efeito em partidas reais: limita o saldo em 1e9 em vez de rejeitar (inalcançável); coloca a recompensa na primeira célula vazia em vez de deixar escolher; não tem `causeSeq` nem `outcome` em `END_NIGHT`. Resultados de todas as fixtures acima coincidem com ele.
+## 6. Divergências conhecidas com o código
+Sem divergência de resultado entre este texto, `src/core/resolve.ts` e o sandbox. Diferenças só de contrato, sem efeito em partidas reais: o saldo satura em 1e9 em vez de rejeitar (inalcançável, P1-006 decide); `ACTIVATE` usa `byId` em vez de `causeSeq`.

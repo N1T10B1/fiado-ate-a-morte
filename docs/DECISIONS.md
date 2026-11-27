@@ -1,4 +1,4 @@
-# Registro de decisões — v0.2.0
+# Registro de decisões — v0.3.0
 D001–D009: abertura v0.1.0, todas PROPOSTA. D010–D016: v0.2.0. Status: APROVADA (diretor), PROPOSTA, HIPÓTESE (detalhe técnico reversível decidido pela coordenação) ou PENDENTE DIRETOR.
 
 Na abertura v0.1.0 nenhuma decisão nova de gameplay foi aprovada explicitamente. Baseline herdada: Prompt Mestre v0.1 e mandato de iniciar P0. As propostas abaixo exigem revisão do diretor e threads 01/02/09. Status de todas: PROPOSTA.
@@ -32,14 +32,22 @@ Pontos de revisão: D002/D003 precisam de fixture real do combo 60; se impossív
 | D017 | APROVADA | D005 (escopo): em P1, maldição implementa só os bônus por faixa e a derrota em 100; bloqueio de célula (60–89) e consumo de relíquia (90–99) ficam para P2. | Rafael, 2026-11-27 |
 | D018 | APROVADA | D007 (escopo): em P1, a quinta noite usa tributo normal (100), vitória após o pagamento, sem modificador especial e sem recompensa final. Modificador da última noite volta em P2. | Rafael, 2026-11-27 |
 
-## v0.3.0-proposta — 2026-11-27 (thread 01, P0-02a)
-Detalham D001–D004/D006/D009 para tirar ambiguidade; texto normativo em `docs/RULES.md` e `docs/RELICS.md`. Todas conferidas contra o motor do sandbox. A numeração pode ser ajustada pela 00 se outra thread usou os mesmos números.
+## v0.3.0 — 2026-11-27 (P1-002 a P1-005)
+Implementação seguiu as propostas D001–D004/D006/D009 como hipóteses; os pontos abaixo são as escolhas concretas feitas no código. Todas HIPÓTESE até revisão das threads 01/09.
+
+| ID | Status | Decisão | Evidência |
+|---|---|---|---|
+| D019 | HIPÓTESE | Log ganha dois tipos informativos: `ARM_MULTIPLIER` (olho preparado) e `NO_EFFECT` (relíquia ativou sem alvo). O limite de 256 conta ativações processadas, não linhas do log; ao exceder, a noite termina com `outcome: truncated`. | `src/core/events.ts`, `tests/resolve.test.ts` |
+| D020 | HIPÓTESE | Espelho copia o ganho-base estático (crânio 10, moeda 4, livro 18) da célula à esquerda mesmo que ela não tenha ativado; não copia maldição nem bônus, não consome olho. Ampulheta repete o último ganho **direto** creditado já com bônus e olho. Anel escolhe o primeiro vizinho vivo N/E/S/O, inclusive relíquia já ativada. Dente conta destruídas da partida inteira, incluindo as desta noite. Bônus abissal só no livro. | fixtures em `tests/resolve.test.ts` |
+| D021 | HIPÓTESE | Compra vai para a célula vazia escolhida ou a primeira livre em ordem de leitura; recompensa escolhida vai para a primeira livre. Desfazer cobre só movimentos desde a última compra, venda, renovação ou noite. Venda credita `max(1, floor(preço/2))`. Preços: comuns 3–5, incomuns 7–8, raras 11–13; pesos 60/30/10. | `src/core/run.ts`, `src/core/relics.ts` |
+| A08 | PARA 01 | Achado de design: no P1 o Anel sempre destrói quem o despertou (vela ou fio), porque é sempre um vizinho vivo; o caso "sem alvo" é inalcançável. Na prática o Anel come a sua vela, que some para as noites seguintes. Pode ser intencional (sacrifício) ou pedir regra "não destrói relíquia de início". Mudança de mecânica: decisão do Rafael via thread 01. | `tests/resolve.test.ts` ("anel sempre tem alvo") |
+
+## v0.3.1-proposta — 2026-11-27 (thread 01, P0-02a)
+Formalização em `docs/RULES.md` e `docs/RELICS.md`. Confirma D019–D021 acima (as 40 fixtures de RELICS dão o mesmo resultado em `src/core/resolve.ts` e no sandbox) e acrescenta só o que faltava. A numeração pode ser ajustada pela 00.
 
 | ID | Status | Proposta | Evidência |
 |---|---|---|---|
-| D019 | PROPOSTA | Resolução: só ativações entram na fila; efeitos da ativação são aplicados na hora, na ordem da definição. Instância enfileirada fica reservada; item de instância destruída ou já ativada é descartado sem evento. Limite de 256 conta itens retirados da fila; inalcançável no P1 (máx. 25), testado com limite injetável. | RULES §3; fixtures C4, S1, A3, X1 |
-| D020 | PROPOSTA (mecânica) | Espelho copia ganho-base estático (crânio 10, moeda 4, livro 18) da célula a oeste, qualquer que seja o estado do alvo vivo (A01b). Cópia sem bônus, sem olho, sem maldição, não repetível. | E1–E5, A01 |
-| D021 | PROPOSTA (contrato) | Log ganha `ARM` (olho) e `FIZZLE` (efeito sem alvo, com motivo); `END_NIGHT` ganha `outcome: ok/defeat/truncated`; `ACTIVATE` despertado traz `causeSeq`. Implementação é da thread 02. | RULES §7 |
-| D022 | PROPOSTA | Tabela de raridade/preço/peso: comuns 60 (vela 4, crânio 5, moeda 3, pena 4); incomuns 30 (espelho 8, sino 7, fio 7, dente 8); raras 10 (olho 12, ampulheta 13, livro 11, anel 11). Tag mecânica `abissal` só no livro; arquétipos são rótulos sem efeito no P1. | RELICS tabela 1 |
-| D023 | PROPOSTA (mecânica) | Anel destrói o primeiro vizinho ocupado em N/L/S/O, de qualquer definição e estado, inclusive quem o despertou; destruição é permanente na partida. Consequência: no P1 o anel sempre tem alvo. Fio aplica +2 mesmo sem alvo (A04). | A1–A3, F2, RELICS 3.1 |
-| D024 | PROPOSTA | Mercado e recompensa: 4 ofertas com reposição por noite; renovação 2, 3, 4… re-sorteia os 4 espaços e volta a 2 na noite seguinte; compra em célula vazia escolhida; venda de qualquer relíquia por max(1, floor(preço/2)), não conta como destruída; recompensa = 3 definições distintas, sem reposição, só com célula vazia (A07); PRNG consumido só por mercado, renovação e recompensa. | RULES §5 |
+| D022 | PROPOSTA | Resolução: só ativações entram na fila; os efeitos de uma ativação são aplicados na hora, na ordem da definição. Item de instância destruída ou já ativada é descartado sem evento e não conta no limite (D019). Com o catálogo P1 cada instância entra na fila no máximo uma vez, então o limite de 256 é inalcançável e o teste usa `maxEvents` injetado. Derrota por maldição é verificada ao fim da ativação; como maldição é sempre o último efeito de livro e fio, isso equivale a "na hora". | RULES §3, §4.4; fixtures C4, S1, A3, L8, F3 |
+| D023 | PROPOSTA | Tag mecânica `abissal` só no livro; arquétipos (necromancia, reflexão, abismo, purificação, devoração, temporal; moeda neutra) são rótulos sem efeito em P1. Preços e pesos conforme D021. | RELICS tabela 1 |
+| D024 | PROPOSTA | Mercado: 4 ofertas por noite, com reposição; renovação 2, 3, 4… re-sorteia os 4 espaços e volta a 2 na noite seguinte. Venda de qualquer relíquia, inclusive iniciais e recompensas; venda não conta como destruída. Recompensa: 3 definições distintas, sem reposição, só se houver célula vazia; bancada cheia = nenhuma oferta, com explicação (A07). PRNG consumido só por mercado, renovação e recompensa. | RULES §5 |
+| D025 | PENDENTE DIRETOR (A08) | Anel: alvo = primeiro vizinho ocupado em N/L/S/O, de qualquer definição e estado (D020). Correção do achado A08: o anel nem sempre destrói quem o despertou; ele sempre **tem** alvo no P1, e só come a vela ou o fio se não houver outra relíquia antes na ordem N/L/S/O (RELICS A1 x A2). Proposta da 01: manter assim no P1 (o jogador protege a vela pondo uma relíquia barata antes dela) e reavaliar no playtest. Alternativa: anel ignora relíquias de INÍCIO. | RELICS nota 3.1, fixtures A1–A3 |

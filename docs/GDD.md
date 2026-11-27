@@ -23,7 +23,7 @@ Preparação → mercado → organização → prévia → invocação → resol
 | coin | Moeda de velório | Início: +4 |
 | thread | Fio de mortalha | Despertar: desperta vizinho elegível inativo N/E/S/O; +2 maldição |
 
-Arquétipos: necromancia, reflexão, abismo (prioritários), purificação, devoração, temporal. 24 relíquias após validação; 100 somente após vertical slice e se justificado. A cadeia de 60 do mestre é hipótese a provar com fixture válida, não resultado garantido. Raridades, tags, preços e pesos propostos em `docs/RELICS.md` (D022); efeitos formais lá e em `docs/RULES.md`.
+Arquétipos: necromancia, reflexão, abismo (prioritários), purificação, devoração, temporal. 24 relíquias após validação; 100 somente após vertical slice e se justificado. A cadeia de 60 do mestre é hipótese a provar com fixture válida, não resultado garantido. Raridades, tags, preços e pesos propostos em `docs/RELICS.md` (D021, D023); efeitos formais lá e em `docs/RULES.md`.
 
 ## Resolução
 Snapshot da bancada; fila FIFO determinística; início em ordem de leitura; efeitos derivados no fim; vizinhos N/E/S/O, desempate ID; objetos destruídos não ativam depois; uma ativação padrão, duas somente por reativação explícita. Cópia sem recursão; repetição sem repetir repetição; máximo defensivo 256 eventos/noite, truncamento é defeito. Prévia sem alterar estado ou consumir seed; produção determinada exata, resultados incertos como faixa/condições. Sem dependência de FPS. Semântica operacional em ARCHITECTURE e propostas D001–D005.
@@ -41,7 +41,7 @@ P1: partida completa, derrota/vitória/reinício, sem arte final, determinismo e
 D001–D009 em DECISIONS. Nenhum preço exato, peso de sorteio, taxa de vitória ou resultado de playtest validado. GDD não substitui o mestre onde omisso.
 
 ## Ambiguidades A01–A07 (respondidas em P0-02a, propostas)
-Regras completas em `docs/RULES.md`; catálogo, critérios e fixtures em `docs/RELICS.md`. Respostas ainda são PROPOSTA (D019–D024) até o gate P0-G.
+Regras completas em `docs/RULES.md`; catálogo, critérios e fixtures em `docs/RELICS.md`. Respostas ainda são PROPOSTA (D019–D025) até o gate P0-G.
 - **A01 — combo 60.** Válido com duas velas e um fio: crânio (0,0), espelho (0,1), sino (1,0), vela (1,1), crânio (1,2), olho (2,1), vela (3,3), fio (3,4), ampulheta (2,4) ⇒ 10 + 10 + 20 + 20 = **60**, maldição +2. Fixture A01 em RELICS.
 - **A01b — sim.** O espelho copia o ganho-base estático da relíquia a oeste em qualquer estado (inativa, reservada ou ativada), desde que viva (D020). É o que torna A01 possível.
 - **A02 — não.** Vela só desperta relíquias de gatilho DESPERTAR; relíquias de INÍCIO ativam pela fila inicial (fixture C3).

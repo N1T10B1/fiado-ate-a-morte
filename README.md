@@ -4,7 +4,7 @@
 Puzzle roguelite de inventário espacial, reações em cadeia e gestão de risco. HTML5, desktop e celular.
 
 ## Estado
-Pré-produção P0 com fundação técnica P1-001 (grade 5×5, PRNG, fila, testes). Ainda não é jogável. Contratos D001–D009 e números de balanceamento são propostas. Ver [estado](docs/STATE.md).
+Protótipo P1 jogável: partida de cinco noites com as 12 relíquias e laboratório de combos, com placeholders. Contratos D001–D009 e números de balanceamento são propostas. Ver [estado](docs/STATE.md).
 
 ## Documentos
 - [Prompt Mestre Claude 1.0](FIADO_ATE_A_MORTE_Prompt_Mestre_Claude.md) (ativo) · [Prompt Mestre v0.1](FIADO_ATE_A_MORTE_Prompt_Mestre.md) (histórico)

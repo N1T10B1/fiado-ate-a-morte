@@ -6,15 +6,19 @@ TypeScript estrito + Vite + DOM/CSS responsivo; Canvas 2D só para efeitos opcio
 ## Módulos e dependências (proposta)
 `src/core/` grade, PRNG, eventos, estado, economia, maldição, resolução pura; sem DOM/browser/time. `src/content/` definições e configuração validadas, traduções; `src/ui/` controles e leitura de estado; `src/effects/` playback do log; `src/audio/` mixer/presets; `src/persistence/` armazenamento e migração; `src/main.ts` composição. `tests/` unitários, fixtures, simulação e E2E. `public/assets/` somente recursos aprovados. UI, persistência e efeitos dependem de contratos do core, nunca o contrário.
 
-## Implementado em P1-001 (D013)
+## Implementado (P1-001 a P1-005; D013, D019–D021)
 | Arquivo | Conteúdo |
 |---|---|
 | `src/core/result.ts` | `Result<T,E>` para rejeições sem mutação |
 | `src/core/grid.ts` | `createGrid(5)`, `place/remove/move/swap` imutáveis, `neighbors` N/E/S/O, `leftOf`, `occupiedInReadingOrder`, `findCoord` |
 | `src/core/rng.ts` | xorshift32 `{s}`, `nextUint32`, `nextInt` por rejeição, `hashSeedText` (FNV-1a/UTF-8), `createStreams` gameplay/cosmético |
 | `src/core/queue.ts` | FIFO persistente: `enqueue/dequeue/peek/size/toArray` |
-| `src/core/events.ts` | `EVENT_TYPES`, união `GameEvent`, `MAX_EVENTS_PER_NIGHT = 256` (só tipos) |
-| `src/ui/strings.ts`, `src/main.ts` | página de fundação com bancada placeholder |
+| `src/core/events.ts` | `EVENT_TYPES`, união `GameEvent` tipada, `MAX_EVENTS_PER_NIGHT = 256` |
+| `src/core/relics.ts`, `config.ts` | dados de regra das 12 relíquias, efeitos, preços/raridades, tributos, faixas de maldição, `RULES_VERSION` |
+| `src/core/resolve.ts` | `resolveNight(input) → {events, gain, curse, destroyedIds, outcome, grid}` puro, sem PRNG |
+| `src/core/run.ts` | `RunState` serializável, `createRun(seed)`, `applyAction(state, action) → Result`, `previewNight`, `replay(seed, actions)` |
+| `src/ui/app.ts`, `strings.ts`, `style.css` | UI DOM placeholder; reproduz o log, nunca aplica regra |
+| `scripts/build-single.mjs` | build em arquivo único para playtest |
 
 Pureza: `tsconfig.core.json` compila `src/core` sem lib DOM; `tests/core-purity.test.ts` proíbe `Math.random`, relógio, DOM, storage, timers e imports fora do core.
 
