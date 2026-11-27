@@ -1,3 +1,5 @@
+> **Histórico (v0.1.0).** Substituído por P1-001 em docs/TASKS.md (executada em 2026-11-27).
+
 # CODEX-001 — fundação técnica
 Status: tarefa preparada, não executada. Iniciar somente após gate P0 e acesso ao repo autorizado.
 

@@ -1,5 +1,7 @@
-# Registro de decisões — v0.1.0
-Nenhuma decisão nova de gameplay aprovada explicitamente nesta abertura. Baseline herdada: Prompt Mestre v0.1 e mandato de iniciar P0. As propostas abaixo exigem revisão do diretor e threads 01/02/09. Status de todas: PROPOSTA.
+# Registro de decisões — v0.2.0
+D001–D009: abertura v0.1.0, todas PROPOSTA. D010–D016: v0.2.0. Status: APROVADA (diretor), PROPOSTA, HIPÓTESE (detalhe técnico reversível decidido pela coordenação) ou PENDENTE DIRETOR.
+
+Na abertura v0.1.0 nenhuma decisão nova de gameplay foi aprovada explicitamente. Baseline herdada: Prompt Mestre v0.1 e mandato de iniciar P0. As propostas abaixo exigem revisão do diretor e threads 01/02/09. Status de todas: PROPOSTA.
 
 | ID | Questão | Proposta para P1 | Evidência/critério |
 |---|---|---|---|
@@ -10,7 +12,21 @@ Nenhuma decisão nova de gameplay aprovada explicitamente nesta abertura. Baseli
 | D005 | Penalidades por faixa | congelar faixa no começo; implementar bônus e derrota primeiro; avaliar bloqueio/consumo antes de P2, com autorização explícita de adiamento; tag abyss candidata apenas book inicialmente | fronteiras e risco/recompensa verificáveis |
 | D006 | Mercado e recompensas | ofertas de instância única por slot, duplicatas de definição permitidas; compra exige célula vazia e saldo; venda remove instância; reroll reinicia por noite; recompensas candidatas três relíquias gratuitas distintas quando espaço, recusa sempre, se não houver espaço nenhuma oferta; tabela de raridade/preço/pesos a formalizar por 01/08; iniciais colocados em posições didáticas por fixture | transações atômicas, sem arbitragem, grade cheia, primeira noite compreensível |
 | D007 | Última noite | mestre pede modificador especial; proposta adiar regra especial para P2, P1 quinta noite usa tributo normal e vitória após pagamento; sem recompensa final | fluxo vitória testável; diretor decide se prefere modificador simples já em P1 |
-| D008 | Contrato técnico | coordenadas base zero, ID sequencial, xorshift32 com seed zero normalizada, streams separados, estado/log tipado, checkpoint estável; nomes conforme arquitetura | vetor PRNG, mesmas ações/seed, nenhuma dependência de DOM |
+| D008 | Contrato técnico (**parcialmente implementado em P1-001**, ver D013) | coordenadas base zero, ID sequencial, xorshift32 com seed zero normalizada, streams separados, estado/log tipado, checkpoint estável; nomes conforme arquitetura | vetor PRNG, mesmas ações/seed, nenhuma dependência de DOM |
 | D009 | Undo e fronteiras | undo apenas posicionamentos desde última compra/venda/reroll, limpar histórico em transação e invocação; pagamento/recompensa idempotentes; reset preserva configurações | testes de duplicação e reload |
 
 Pontos de revisão: D002/D003 precisam de fixture real do combo 60; se impossível, documentar e propor cadeia alternativa sem falsear resultado. D005 e D007 são adiamentos de escopo, não decisões tomadas. A tabela de preços/tags/pesos deve estar aprovada antes do gate. Nenhum número de sucesso de playtest foi medido. Nome comercial ainda não verificado.
+
+## v0.2.0 — 2026-11-27
+
+| ID | Status | Decisão | Origem / evidência |
+|---|---|---|---|
+| D010 | APROVADA | Nome do jogo passa a ser **Grave Credit** em docs, código e título. "Fiado até a Morte" vira título de trabalho histórico. Repositório não é renomeado. Verificação comercial/marca ainda pendente antes de publicar. | Rafael, 2026-11-27 |
+| D011 | APROVADA | Claude (Claude Code) é o implementador principal; Codex deixa de ser dependência. ChatGPT gera as imagens finais a partir de pedidos em `docs/ASSET_REQUESTS.md`. | Prompt Mestre Claude 1.0 enviado por Rafael |
+| D012 | APROVADA | P1-001 (fundação: grade, PRNG, fila) executado antes do gate P0, pois não depende de D001–D009. Resolvedor de relíquias (P1-002) segue aguardando D001–D004. | Pedido do Rafael para iniciar implementação |
+| D013 | HIPÓTESE | PRNG xorshift32 (13/17/5), estado `{s: uint32}`; seed 0 (mod 2³²) → 0x9E3779B9; seed textual por FNV-1a 32 sobre UTF-8; fluxos gameplay/cosmético derivados por mistura splitmix32 com sal 1/2; inteiros por rejeição sem viés. Coordenadas base zero `{row,col}`; IDs inteiros ≥ 0. Grade imutável, operações devolvem `Result`. `swap` aceita uma célula vazia; `move` exige destino vazio. | `tests/rng.test.ts`, `tests/grid.test.ts` |
+| D014 | PENDENTE DIRETOR | Manter "Fiado até a Morte" como título localizado pt-BR (ex.: *Grave Credit: Fiado até a Morte*) ou usar só Grave Credit em todos os idiomas. Até a resposta, a UI usa apenas "Grave Credit". | Identidade |
+| D015 | HIPÓTESE | Toolchain: Node ≥ 22.12, Vite 8.4.0, Vitest 5.1.2, TypeScript 5.9.3 (não a 7.x, por estabilidade), versões exatas no lockfile. `tsconfig.core.json` sem lib DOM impede DOM no core em tempo de compilação. | `npm run typecheck` |
+| D016 | HIPÓTESE | Branch de trabalho do ambiente Claude: `claude/<thread>`; prefixos feature/fix/art/docs continuam valendo para threads manuais. | Restrição do ambiente |
+
+Recomendações da coordenação para D005 e D007 (escopo, aguardam o diretor): adiar bloqueio de célula e consumo de relíquia para P2 e, em P1, a quinta noite usar tributo normal sem modificador. Seguimos com essas hipóteses até resposta, sem tratá-las como aprovadas.

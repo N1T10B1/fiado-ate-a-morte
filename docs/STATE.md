@@ -1,27 +1,22 @@
-# Estado do projeto — v0.1.1
-Data: 2026-11-27 | Fase: P0 em andamento | Coordenação: thread 00
+# Estado do projeto — v0.2.0
+Data: 2026-11-27 | Fase: P0 aberto, P1-001 entregue em PR | Coordenação: thread 00 (Claude)
 
 ## Estado verificável
-- Prompt Mestre v0.1 lido; documentação inicial v0.1.0 preparada para revisão do diretor.
-- GitHub conectado; repositório N1T10B1/fiado-ate-a-morte confirmado. Commit inicial de main: 101b3339f90a8c256ebbff3e2cd141b3580ce188. Branch docs/p0-bootstrap criada; arquivos de referência e tarefas importados para revisão. Merge não autorizado.
-- Codex ainda não verificado. Nenhum build, teste de jogo ou asset final confirmado. Nenhuma outra thread aberta pela coordenação.
-- P1 não iniciado. Gate P0 aberto. CODEX-001 preparada, execução aguardando autorização do gate e acesso Codex.
+- Nome oficial do jogo: **Grave Credit** (D010, decisão do diretor em 2026-11-27). Repositório mantém o nome `fiado-ate-a-morte`.
+- Referência ativa: Prompt Mestre Claude 1.0 (`FIADO_ATE_A_MORTE_Prompt_Mestre_Claude.md`, sha256 7e74bb834abb…). O mestre v0.1 original (`FIADO_ATE_A_MORTE_Prompt_Mestre.md`, f84fd2fd9fa2…) fica como histórico. Implementação agora é feita pelo Claude (D011); Codex não é mais dependência.
+- P0 da v0.1.1 já estava na main (PR #1). Nada foi apagado; `tasks/THREADS.md` e `tasks/CODEX-001.md` foram substituídos por `docs/TASKS.md` e mantidos como histórico.
+- **P1-001 implementado** na branch `claude/project-thread-uw8i40`: Vite 8.4 + TypeScript 5.9 estrito + Vitest 5.1; `src/core/` com grade 5×5, PRNG xorshift32 serializável, fila FIFO persistente e tipos do log. Node 22.23.5, npm 10.9.9.
+- Evidência (2026-11-27): `npm ci` ok; `npm run typecheck` ok (3 configs); `npm test` 4 arquivos / 42 testes passando; `npm run build` ok (JS 3,27 kB). Página de fundação renderizada em Chromium headless a 360 px sem erros nem rolagem horizontal.
+- Não existe ainda: resolvedor de relíquias, economia, mercado, UI de jogo, saves, áudio, arte. Nenhum asset solicitado.
 
-## Base do escopo
-Identidade e limites herdados do Prompt Mestre. Valores econômicos são hipóteses; contratos novos estão em DECISIONS (D001–D009). Não confundir proposta com aprovação.
-
-## Trabalho atual
-| ID | Dono | Estado | Próximo passo |
-|---|---|---|---|
-| P0-01 | 00 | entregue para revisão | validar pacote e nome de trabalho |
-| P0-02 | 01 + 02 + 09 | pendente | revisar contratos e fixtures |
-| P0-03 | 02 | integração em revisão | verificar conteúdo e PR; autorizar merge; confirmar Codex |
-| P0-04–08 | 03/04/05/06/07/08/09 | disponíveis para atribuição | estudos independentes sem implementação final |
-| P0-G | 00 + diretor | pendente | aprovar contratos/dados e escopo P1 |
-| P1-01 | 02 | aguardando gate | executar CODEX-001 |
+## Gates
+- P0-G (contratos D001–D009 e dados): aberto. P1-001 não dependia deles (D012).
+- P1-G: não iniciado.
 
 ## Próxima revisão
-Aprovar GDD, contratos D001–D009 (ou registrar alternativas), confirmar acesso Codex e responsáveis. Ver ROADMAP para sequência e aceitação. Não expandir catálogo nem produzir assets em massa.
+1. Rafael: revisar/mesclar o PR do P1-001 e responder às decisões pendentes em DECISIONS (D005, D007, D014).
+2. Threads 01/09 fecham D001–D004 com fixtures antes de P1-002.
+3. P1-002 (resolvedor: candle/skull/feather, log, prévia) começa após o merge do P1-001.
 
 ## Handoff incremental
-Base: Prompt Mestre v0.1; pacote v0.1.0; integração administrativa v0.1.1. Referência de trabalho: docs/p0-bootstrap, histórico Git para commits. Após cada integração registrar ID, commit, arquivos, testes, decisões, riscos e próximo ID.
+Após cada integração: ID da tarefa, commit/PR, arquivos, testes, decisões, riscos e próximo ID. Histórico completo no Git e em CHANGELOG.

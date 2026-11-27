@@ -1,8 +1,8 @@
-# GDD — FIADO ATÉ A MORTE
-v0.1.0 | 2026-11-27 | base: Prompt Mestre v0.1 | revisão P0 pendente
+# GDD — Grave Credit
+v0.2.0 | 2026-11-27 | base: Prompt Mestre Claude 1.0 (regras idênticas ao v0.1) | revisão P0 pendente
 
 ## Base herdada (não equivale a nova aprovação)
-Título de trabalho FIADO ATÉ A MORTE; Grave Credit candidato internacional, ambos sujeitos a verificação comercial. Puzzle roguelite singleplayer, inventário espacial, combos e risco; HTML5 PC/mobile; 5–10 min protótipo, 15–25 min versão completa. Loja de antiguidades entre vivos e mortos; comerciante paga tributo sobrenatural. Humor seco e burocrático, horror gradual, escolhas legíveis e derrotas compreensíveis. Pilares: estratégia espacial, combos, lucro versus maldição, horror intimista e rejogabilidade.
+Nome do jogo: **Grave Credit** (D010). "Fiado até a Morte" foi o título de trabalho; uso como título localizado pt-BR pendente (D014). Verificação comercial/marca antes de publicar. Puzzle roguelite singleplayer, inventário espacial, combos e risco; HTML5 PC/mobile; 5–10 min protótipo, 15–25 min versão completa. Loja de antiguidades entre vivos e mortos; comerciante paga tributo sobrenatural. Humor seco e burocrático, horror gradual, escolhas legíveis e derrotas compreensíveis. Pilares: estratégia espacial, combos, lucro versus maldição, horror intimista e rejogabilidade.
 
 ## P1 — loop e hipóteses numéricas
 Preparação → mercado → organização → prévia → invocação → resolução → pagamento → recompensa → próxima noite. Cinco noites (oito na versão completa). Grade 5×5 aberta, objetos de uma célula, vizinhança N/E/S/O. Início com 12 óbolos, vela, crânio, pena. Quatro ofertas/noite; reroll custa 2, incrementa 1 por uso na noite. Preços comuns 3–6, incomuns 7–10, raras 11–16; venda metade do preço-base arredondada para baixo, mínimo 1. Movimentos e trocas livres antes de invocar; undo exclusivamente espacial sem duplicar recursos. Tributos 10/22/40/65/100; curva completa candidata acrescenta 150/220/320. Saldo remanescente passa de noite; maldição 100 ou saldo insuficiente derrota; maldição 100 precede pagamento. Após pagamento, escolher uma de três recompensas elegíveis ou recusar, exceto última noite. Modificador da última noite ainda requer decisão D007. Sem empréstimos ou ressurreições.
@@ -39,3 +39,13 @@ P1: partida completa, derrota/vitória/reinício, sem arte final, determinismo e
 
 ## Aprovação pendente
 D001–D009 em DECISIONS. Nenhum preço exato, peso de sorteio, taxa de vitória ou resultado de playtest validado. GDD não substitui o mestre onde omisso.
+
+## Ambiguidades abertas (para thread 01, P0-02a)
+- **A01 — combo 60 precisa de um quinto despertador.** A vela desperta no máximo 4 vizinhos ortogonais; a cadeia usa 5 relíquias que precisam ser despertadas (crânio, espelho, olho, sino, ampulheta). Disposição candidata com vela em (1,1): espelho N (0,1) com o 2º crânio à sua esquerda (0,0), crânio E, olho S, sino O ⇒ 10 + 10 + 0 + 20 = 40; a ampulheta (+20) exige segunda vela ou fio (+2 maldição). Resolver em P1-003 com fixture real, sem forçar o total.
+- **A01b —** O espelho copia o ganho-base estático da relíquia à esquerda mesmo que ela ainda esteja inativa (D003 implica que sim)? Isso decide se a disposição acima funciona.
+- **A02 —** Vela desperta relíquias com gatilho de início (moeda, pena, outra vela)? Proposta D001: não.
+- **A03 —** Ganho copiado pelo espelho conta como "ganho direto" para o olho e a ampulheta? Proposta D003: não para o olho; a ampulheta repete só ganho direto creditado.
+- **A04 —** Fio sem alvo ainda aplica +2 maldição? Proposta D002: sim (a confirmar).
+- **A05 —** Ganho do livro (+18) é creditado antes da maldição (+8) quando a maldição chega a 100? Proposta D004: ganho, depois maldição, derrota imediata ao atingir 100; o ganho não salva a partida.
+- **A06 —** Faixa congelada na invocação: um livro que leva a maldição de 25 a 33 não ativa o bônus de 25% na mesma noite. Confirmar que é o comportamento desejado.
+- **A07 —** Recompensa pós-pagamento com bancada cheia: oferecer só recompensas não espaciais ou nenhuma? Proposta D006: nenhuma relíquia, recusa sempre possível.

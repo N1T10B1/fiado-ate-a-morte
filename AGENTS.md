@@ -1,5 +1,7 @@
-# FIADO ATÉ A MORTE — instruções de trabalho
+# Grave Credit — instruções de trabalho
 v0.1.0 | 2026-11-27 | P0
+
+> Para Claude, `CLAUDE.md` é a instrução principal (v0.2.0). Este arquivo segue válido para outros agentes; onde divergir, vale `CLAUDE.md`.
 
 - O usuário é diretor criativo. Thread 00 coordena; somente ela consolida decisões autorizadas. Fonte de referência: Prompt Mestre v0.1; após integração, Git é a fonte oficial versionada. Divergências devem ser reportadas, nunca resolvidas silenciosamente.
 - Antes de editar, leia `docs/STATE.md` e apenas os documentos relevantes. Confira branch, arquivos existentes, dependências e critérios da tarefa. Propostas em `docs/DECISIONS.md` não são regras aprovadas.

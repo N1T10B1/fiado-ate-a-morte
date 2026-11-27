@@ -1,3 +1,5 @@
+> **Histórico (v0.1.0).** Substituído por docs/TASKS.md.
+
 # Mensagens de abertura — copiar uma por conversa
 Base comum: Prompt Mestre v0.1 disponível no projeto; referenciar STATE v0.1.0 e apenas documentos indicados. Entregar relatório incremental com status, arquivos, evidência, decisões, riscos e próxima tarefa. Não presumir acesso ao Git, nem executar fora do escopo. Mensagens abaixo são para abrir manualmente; nenhuma thread foi criada.
 
