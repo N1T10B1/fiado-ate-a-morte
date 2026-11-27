@@ -1,4 +1,4 @@
-# Registro de decisões — v0.2.0
+# Registro de decisões — v0.3.0
 D001–D009: abertura v0.1.0, todas PROPOSTA. D010–D016: v0.2.0. Status: APROVADA (diretor), PROPOSTA, HIPÓTESE (detalhe técnico reversível decidido pela coordenação) ou PENDENTE DIRETOR.
 
 Na abertura v0.1.0 nenhuma decisão nova de gameplay foi aprovada explicitamente. Baseline herdada: Prompt Mestre v0.1 e mandato de iniciar P0. As propostas abaixo exigem revisão do diretor e threads 01/02/09. Status de todas: PROPOSTA.
@@ -31,3 +31,13 @@ Pontos de revisão: D002/D003 precisam de fixture real do combo 60; se impossív
 
 | D017 | APROVADA | D005 (escopo): em P1, maldição implementa só os bônus por faixa e a derrota em 100; bloqueio de célula (60–89) e consumo de relíquia (90–99) ficam para P2. | Rafael, 2026-11-27 |
 | D018 | APROVADA | D007 (escopo): em P1, a quinta noite usa tributo normal (100), vitória após o pagamento, sem modificador especial e sem recompensa final. Modificador da última noite volta em P2. | Rafael, 2026-11-27 |
+
+## v0.3.0 — 2026-11-27 (P1-002 a P1-005)
+Implementação seguiu as propostas D001–D004/D006/D009 como hipóteses; os pontos abaixo são as escolhas concretas feitas no código. Todas HIPÓTESE até revisão das threads 01/09.
+
+| ID | Status | Decisão | Evidência |
+|---|---|---|---|
+| D019 | HIPÓTESE | Log ganha dois tipos informativos: `ARM_MULTIPLIER` (olho preparado) e `NO_EFFECT` (relíquia ativou sem alvo). O limite de 256 conta ativações processadas, não linhas do log; ao exceder, a noite termina com `outcome: truncated`. | `src/core/events.ts`, `tests/resolve.test.ts` |
+| D020 | HIPÓTESE | Espelho copia o ganho-base estático (crânio 10, moeda 4, livro 18) da célula à esquerda mesmo que ela não tenha ativado; não copia maldição nem bônus, não consome olho. Ampulheta repete o último ganho **direto** creditado já com bônus e olho. Anel escolhe o primeiro vizinho vivo N/E/S/O, inclusive relíquia já ativada. Dente conta destruídas da partida inteira, incluindo as desta noite. Bônus abissal só no livro. | fixtures em `tests/resolve.test.ts` |
+| D021 | HIPÓTESE | Compra vai para a célula vazia escolhida ou a primeira livre em ordem de leitura; recompensa escolhida vai para a primeira livre. Desfazer cobre só movimentos desde a última compra, venda, renovação ou noite. Venda credita `max(1, floor(preço/2))`. Preços: comuns 3–5, incomuns 7–8, raras 11–13; pesos 60/30/10. | `src/core/run.ts`, `src/core/relics.ts` |
+| A08 | PARA 01 | Achado de design: no P1 o Anel sempre destrói quem o despertou (vela ou fio), porque é sempre um vizinho vivo; o caso "sem alvo" é inalcançável. Na prática o Anel come a sua vela, que some para as noites seguintes. Pode ser intencional (sacrifício) ou pedir regra "não destrói relíquia de início". Mudança de mecânica: decisão do Rafael via thread 01. | `tests/resolve.test.ts` ("anel sempre tem alvo") |

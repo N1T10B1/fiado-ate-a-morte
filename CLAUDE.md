@@ -13,7 +13,7 @@ Jogo: **Grave Credit** (D010/D014; único nome em todos os idiomas, "Fiado até 
 - Placeholders até haver asset aprovado em `docs/ASSET_MANIFEST.json`. Não desenhar arte final por código.
 
 ## Comandos
-`npm ci` · `npm run typecheck` · `npm test` · `npm run build` · `npm run dev`
+`npm ci` · `npm run typecheck` · `npm test` · `npm run build` · `npm run dev` · `npm run build:single` (arquivo único para playtest)
 
 ## Git
 Uma tarefa por branch, commits pequenos, PR para a main. Não mesclar na main, forçar push, publicar ou apagar dados sem autorização do Rafael.
