@@ -46,6 +46,20 @@ Regras:
 - Saturação geral baixa; o ponto mais saturado de cada asset é a informação sobrenatural ou a chama.
 - A UI usa as mesmas cores como tokens (já presentes no protótipo `prototypes/sandbox-p1.html`). Arte e UI compartilham a paleta, então nenhuma arte deve depender de uma cor que a UI usa para estado (ver seção 7).
 
+### 3.1 Tons só para texto (decisão da thread 03, 2026-11-27)
+O vermelho ritual e o violeta não alcançam 4,5:1 sobre os fundos escuros (cálculo WCAG 2.x, conferido a partir de `docs/UX.md` seção 10.1, PR #8). Ficam adotados dois tons derivados, **exclusivos para texto e ícones pequenos da UI**:
+
+| Token | HEX | Deriva de | Contraste em #16151C | em #342A27 | em #51465B |
+|---|---|---|---|---|---|
+| ritual-texto | #D97B7B | #A34747 | 6,1 ✓ | 4,7 ✓ | 3,0 só texto ≥ 24 px |
+| violeta-texto | #B39AD6 | #8063A6 | 7,4 ✓ | 5,7 ✓ | 3,6 só texto ≥ 24 px |
+
+Regras:
+- #A34747 e #8063A6 continuam valendo para superfícies, molduras, barras e ícones grandes (≥ 3:1), nunca para texto pequeno.
+- Os tons de texto **não entram na arte** nem nos prompts do ChatGPT; a arte segue a paleta da tabela acima.
+- Texto pequeno só sobre #16151C ou #342A27 lisos. #51465B não é fundo de texto pequeno em nenhuma cor de destaque, e também não é cor de texto (2,0:1 sobre o abissal).
+- Cores de texto já aprovadas sem ajuste: #DED0B5, #E5B56B, #B49A65 e #85B6A7 (todas ≥ 5:1 no abissal e na madeira).
+
 ## 4. Iluminação
 - **Luz principal:** vela, quente (#E5B56B), vinda de **cima e da esquerda, levemente à frente** (aprox. 45° acima, 45° à esquerda). Igual em todas as relíquias e fundos.
 - **Sombras:** frias e contidas (#51465B → #16151C), caindo para baixo e à direita. Sem preto chapado ocupando grandes áreas.
