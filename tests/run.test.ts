@@ -177,6 +177,19 @@ describe('partida: noites, tributo e fim', () => {
     expect(t.lastNight?.events).toEqual(p.events);
   });
 
+  it('saldo perto do teto: sino e venda recusados sem mutação', () => {
+    const s = { ...createRun('teto'), balance: DEFAULT_CONFIG.maxBalance - 5 };
+    expect(applyAction(s, { type: 'ring' })).toEqual({ ok: false, error: 'balance_overflow' });
+    const full = { ...s, balance: DEFAULT_CONFIG.maxBalance };
+    expect(applyAction(full, { type: 'sell', at: { row: 2, col: 2 } })).toEqual({ ok: false, error: 'balance_overflow' });
+  });
+
+  it('noite truncada não é gravada', () => {
+    const cfg = { ...DEFAULT_CONFIG, maxEventsPerNight: 1 };
+    const s = createRun('trunc', cfg);
+    expect(applyAction(s, { type: 'ring' }, cfg)).toEqual({ ok: false, error: 'resolution_truncated' });
+  });
+
   it('tributo por noite segue a configuração', () => {
     expect(tributeFor(createRun('t'))).toBe(10);
   });

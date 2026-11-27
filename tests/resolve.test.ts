@@ -151,7 +151,7 @@ describe('resolvedor: relíquias', () => {
   });
 
   it('anel sempre tem alvo no P1: quem o desperta (vela ou fio) é vizinho vivo', () => {
-    // Com o catálogo atual o caso "sem alvo" é inalcançável; o anel destrói o próprio despertador.
+    // Quem desperta o anel é vizinho vivo, então ele sempre tem alvo; aqui a vela é o único vizinho.
     const r = resolveNight(night({ '0,0': 'candle', '1,0': 'ring' }));
     expect([r.gain, r.destroyedIds.length]).toEqual([16, 1]);
   });
@@ -238,9 +238,12 @@ describe('limites e pureza', () => {
     expect(r.events.filter((e) => e.type === 'ACTIVATE').length).toBeLessThanOrEqual(25);
   });
 
-  it('teto de saldo: ganho limitado ao máximo configurado', () => {
+  it('teto de saldo: exceder não trunca em silêncio, encerra com balance_overflow', () => {
     const r = resolveNight(night({ '0,0': 'coin', '0,1': 'coin' }, { maxBalance: 5 }));
-    expect(r.gain).toBe(5);
+    expect(r.outcome).toBe('balance_overflow');
+    expect(r.gain).toBe(4);
+    const near = resolveNight(night({ '0,0': 'coin' }, { maxBalance: 1_000_000_000, balance: 999_999_997 }));
+    expect(near.outcome).toBe('balance_overflow');
   });
 
   it('não muta a entrada e é determinístico', () => {

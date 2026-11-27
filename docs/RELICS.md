@@ -100,4 +100,4 @@ Formato: bancada (só as células ocupadas), maldição no sino, destruídas ant
 | X1 | Limite 256/257 | estado sintético com `maxEvents` injetado | — | — | — | N ativações processam; a N+1ª gera `outcome: truncated`, sem crédito |
 
 ## 6. Divergências conhecidas com o código
-Sem divergência de resultado entre este texto, `src/core/resolve.ts` e o sandbox. Diferenças só de contrato, sem efeito em partidas reais: o saldo satura em 1e9 em vez de rejeitar (inalcançável, P1-006 decide); `ACTIVATE` usa `byId` em vez de `causeSeq`.
+Sem divergência de resultado entre este texto, `src/core/resolve.ts` e o sandbox. O teto de saldo segue D026 (rejeita, não trunca).
