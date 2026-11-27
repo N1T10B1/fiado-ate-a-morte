@@ -117,26 +117,69 @@ export function validateState(v: unknown): string | null {
   if (!isInt(s['destroyedThisRun'], 0, 10_000)) return 'destroyed';
   if (!isInt(s['rerollCost'], 0, cfg.maxBalance)) return 'reroll';
   if (!['organize', 'reward', 'won', 'lost'].includes(s['phase'] as string)) return 'phase';
-  const grid = s['grid'] as Record<string, unknown> | null;
-  if (!grid || grid['rows'] !== cfg.gridSize || grid['cols'] !== cfg.gridSize || !Array.isArray(grid['cells'])) return 'grid';
-  const cells = grid['cells'] as unknown[];
-  if (cells.length !== cfg.gridSize * cfg.gridSize) return 'grid';
   const inst = s['instances'] as Record<string, unknown> | null;
-  if (typeof inst !== 'object' || inst === null) return 'instances';
-  const seen = new Set<number>();
-  for (const c of cells) {
-    if (c === null) continue;
-    if (!isInt(c, 0, Number.MAX_SAFE_INTEGER) || seen.has(c)) return 'grid_ids';
-    seen.add(c);
-    const i = inst[String(c)] as Record<string, unknown> | undefined;
-    if (!i || !isRelicId(i['relic'])) return 'instance_relic';
+  if (typeof inst !== 'object' || inst === null || Array.isArray(inst)) return 'instances';
+  for (const [k, i] of Object.entries(inst)) {
+    if (!isInt(Number(k), 0, Number.MAX_SAFE_INTEGER)) return 'instance_id';
+    if (typeof i !== 'object' || i === null || !isRelicId((i as Record<string, unknown>)['relic'])) return 'instance_relic';
   }
-  if (Object.keys(inst).length !== seen.size) return 'orphan_instance';
-  if (!isInt(s['nextId'], 1, Number.MAX_SAFE_INTEGER) || [...seen].some((id) => id >= (s['nextId'] as number))) return 'next_id';
+  const ids = gridIds(s['grid']);
+  if (!ids) return 'grid';
+  if (ids.some((id) => !(String(id) in inst))) return 'instance_missing';
+  if (Object.keys(inst).length !== ids.length) return 'orphan_instance';
+  if (!isInt(s['nextId'], 1, Number.MAX_SAFE_INTEGER) || ids.some((id) => id >= (s['nextId'] as number))) return 'next_id';
+  // Cada grade do desfazer contém exatamente as mesmas instâncias da grade atual (só movimentos).
+  const undo = s['undoStack'];
+  if (!Array.isArray(undo)) return 'undo';
+  const sorted = [...ids].sort((a, b) => a - b).join(',');
+  for (const g of undo) {
+    const u = gridIds(g);
+    if (!u || [...u].sort((a, b) => a - b).join(',') !== sorted) return 'undo';
+  }
   const market = s['market'];
-  if (!Array.isArray(market) || market.some((o) => !o || !isRelicId((o as Record<string, unknown>)['relic']))) return 'market';
+  if (
+    !Array.isArray(market) ||
+    market.length > cfg.marketOffers ||
+    market.some((o) => typeof o !== 'object' || o === null || !isRelicId((o as Record<string, unknown>)['relic']) || typeof (o as Record<string, unknown>)['sold'] !== 'boolean')
+  )
+    return 'market';
   const reward = s['rewardOptions'];
   if (!Array.isArray(reward) || reward.some((r) => !isRelicId(r))) return 'reward';
-  if (!Array.isArray(s['undoStack'])) return 'undo';
+  if (s['lossReason'] !== null && s['lossReason'] !== 'curse' && s['lossReason'] !== 'tribute') return 'loss_reason';
+  if (!validLastNight(s['lastNight'])) return 'last_night';
   return null;
+}
+
+/** IDs de uma grade 5×5 válida (sem duplicatas), ou null. */
+function gridIds(v: unknown): number[] | null {
+  if (typeof v !== 'object' || v === null) return null;
+  const g = v as Record<string, unknown>;
+  const n = DEFAULT_CONFIG.gridSize;
+  if (g['rows'] !== n || g['cols'] !== n || !Array.isArray(g['cells']) || g['cells'].length !== n * n) return null;
+  const ids: number[] = [];
+  for (const c of g['cells'] as unknown[]) {
+    if (c === null) continue;
+    if (!isInt(c, 0, Number.MAX_SAFE_INTEGER) || ids.includes(c)) return null;
+    ids.push(c);
+  }
+  return ids;
+}
+
+/** O resumo da noite só alimenta a UI, mas precisa ter a forma que ela lê. */
+function validLastNight(v: unknown): boolean {
+  if (v === null) return true;
+  if (typeof v !== 'object') return false;
+  const n = v as Record<string, unknown>;
+  return (
+    isInt(n['night'], 1, DEFAULT_CONFIG.tributes.length) &&
+    Array.isArray(n['events']) &&
+    (n['events'] as unknown[]).every((e) => typeof e === 'object' && e !== null && typeof (e as Record<string, unknown>)['type'] === 'string') &&
+    isInt(n['gain'], 0, DEFAULT_CONFIG.maxBalance) &&
+    isInt(n['tribute'], 0, DEFAULT_CONFIG.maxBalance) &&
+    typeof n['paid'] === 'boolean' &&
+    typeof n['outcome'] === 'string' &&
+    Array.isArray(n['destroyedIds']) &&
+    typeof n['instancesBefore'] === 'object' &&
+    n['instancesBefore'] !== null
+  );
 }
