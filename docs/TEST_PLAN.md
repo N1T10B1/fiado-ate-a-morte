@@ -1,25 +1,26 @@
 # Plano de testes — Grave Credit v0.2.0
-Tarefa P0-02c (thread 09, QA) | 2026-11-27 | base: GDD, ARCHITECTURE, DECISIONS D001–D018, `src/core` do P1-001, `prototypes/sandbox-p1.html`
+Tarefa P0-02c (thread 09, QA) | 2026-11-27 | base: GDD, ARCHITECTURE, DECISIONS D001–D022, motor de `src/core` (PR #6)
 
-Este plano não aprova nem muda regras. As fixtures descrevem o comportamento das **propostas** D001–D006 tal como o protótipo as implementa; se uma decisão mudar, as fixtures que a citam no campo `decisions` mudam junto. Conflitos e perguntas estão nas seções 8 e 9, para a thread 00.
+Este plano não aprova nem muda regras. As fixtures foram escritas à mão a partir das **propostas** D001–D006; se uma decisão mudar, as fixtures que a citam no campo `decisions` mudam junto. Conflitos e perguntas estão nas seções 8 e 9, para a thread 00.
 
 ## 1. Estado
 | Item | Estado | Evidência |
 |---|---|---|
-| Fixtures de resolução (`tests/fixtures/resolve/`) | 46 escritas à mão | todas conferem com o motor do protótipo (`node tests/fixtures/tools/check-against-prototype.mjs`) |
-| Cenários de partida (`tests/fixtures/run/`) | 17 | revisados à mão; RUN-13/15/16 conferidos com o resolvedor do protótipo |
-| Golden de seed (`tests/fixtures/seed/SEED-01.json`) | 2 seeds | `gameplayInitial` confere com `createStreams(hashSeedText(...))` de `src/core/rng.ts` |
-| Validação estrutural (`tests/fixtures-schema.test.ts`) | no `npm test` | coerência interna de cada fixture; não roda o resolvedor |
-| Execução contra `src/core` | **não existe ainda** | depende de P1-002 (resolvedor) e P1-004 (partida) |
+| Fixtures de resolução (`tests/fixtures/resolve/`) | 46 | passam contra `resolveNight` em `tests/qa-fixtures.test.ts` (runner da thread de programação) |
+| Cenários de partida (`tests/fixtures/run/`) | 19 | passam contra `applyAction` em `tests/qa-run-fixtures.test.ts` |
+| Golden de seed (`tests/fixtures/seed/SEED-01.json`) | 2 seeds | passa contra `createRun` e `reroll` |
+| Validação estrutural (`tests/fixtures-schema.test.ts`) | no `npm test` | coerência interna de cada fixture, sem depender do motor |
+
+As 46 fixtures de resolução também conferiram com o motor do protótipo HTML antes de ele sair do repositório. Isso dá duas implementações independentes concordando com o mesmo texto de regras.
 
 ## 2. Níveis de teste
 | Nível | O que cobre | Onde | Quando |
 |---|---|---|---|
 | Unitário | grade, PRNG, fila (já existem, 42 testes) | `tests/{grid,rng,queue}.test.ts` | P1-001 ✓ |
 | Pureza | core sem DOM, relógio, `Math.random`, storage | `tests/core-purity.test.ts`, `tsconfig.core.json` | P1-001 ✓ |
-| Fixture de resolução | bancada + maldição → log, ganho, maldição, derrota | `tests/fixtures/resolve/` | P1-002/003 |
-| Propriedade | determinismo, limites, não mutação (seção 6) | `tests/resolve*.test.ts` (thread 02) | P1-002 |
-| Cenário de partida | compra, venda, reroll, desfazer, tributo, vitória, derrota, recompensa | `tests/fixtures/run/` | P1-004 |
+| Fixture de resolução | bancada + maldição → log, ganho, maldição, derrota | `tests/fixtures/resolve/`, `tests/qa-fixtures.test.ts` | ✓ |
+| Propriedade | determinismo, limites, não mutação (seção 6) | `tests/resolve.test.ts`, `tests/run.test.ts`, `tests/simulation.test.ts` (thread 02); conferir cobertura de P-01…P-08 | parcial |
+| Cenário de partida | compra, venda, reroll, desfazer, tributo, vitória, derrota, recompensa | `tests/fixtures/run/`, `tests/qa-run-fixtures.test.ts` | ✓ |
 | Persistência | save versionado, reload idempotente, corrupção | a definir | P1-006 |
 | Simulação | estratégias aleatória, gananciosa, sinergia, conservadora | `tests/sim/` | P1-007 |
 | E2E / playtest | toque, teclado, 360 px, partida completa | `docs/PLAYTEST.md` | P1-008 |
@@ -40,21 +41,20 @@ Este plano não aprova nem muda regras. As fixtures descrevem o comportamento da
 ```
 - `relics[].id` é o ID da instância e é escolhido de propósito fora da ordem de leitura em várias fixtures, para provar que a fila não segue o ID.
 - `config` é opcional; sem ele vale `MAX_EVENTS_PER_NIGHT = 256`.
-- `expected.log` traz **só tipos de `EVENT_TYPES`**, sem `seq` nem `causeSeq`. A comparação deve filtrar o log real para esses tipos e checar a ordem e os campos listados (campos extras do log real são permitidos).
+- `expected.log` traz só os tipos obrigatórios do contrato, sem `seq` e sem os informativos `ARM_MULTIPLIER` e `NO_EFFECT` (D019). A comparação deve filtrar o log real para esses tipos e checar a ordem e os campos listados (campos extras do log real são permitidos).
 - `CHANGE_CURSE.delta` é o delta **efetivo** depois do corte em 0 e 100 (QA-Q03).
-- `COPY_EFFECT` traz `amount` (conflito C-02).
+- `COPY_EFFECT` traz `amount`.
 - `gain` é o ganho da noite (soma de `GAIN_CURRENCY`, `COPY_EFFECT` e `REPEAT_GAIN`), não o saldo.
 
 ### 3.2 Partida (`tests/fixtures/run/<ID>.json`)
-`setup.state` é um estado parcial (noite, fase, saldo, maldição, relíquias, mercado com preço explícito, `rerollCost`, `nextId`); `steps[]` é uma lista de `{ action, expect }`. Ações: `newRun`, `buy {slot,row,col}`, `sell {row,col}`, `reroll`, `move {from,to}`, `undo`, `invoke`, `chooseReward {index|null}`. Uma expectativa de falha é `{ ok: false, error, stateUnchanged: true, rngUnchanged: true }`. Os códigos de erro (`insufficient_balance`, `cell_occupied`, `cell_empty`, `offer_sold`, `nothing_to_undo`, `resolution_truncated`) são **propostas** para a thread 02; `GridError` já usa `cell_occupied` e `cell_empty`.
+`setup.state` é um estado parcial (noite, fase, saldo, maldição, relíquias, mercado com preço explícito, `rerollCost`, `nextId`); `steps[]` é uma lista de `{ action, expect }`. Ações no vocabulário de `Action` em `src/core/run.ts`: `buy {offer, at}`, `sell {at}`, `reroll`, `move {from,to}`, `undo`, `ring`, `chooseReward {index}`, `skipReward`; mais `newRun {seedText}` só no teste. Uma expectativa de falha é `{ ok: false, error, stateUnchanged: true, rngUnchanged: true }`. Os códigos de erro são os de `ActionError`: `insufficient_funds`, `cell_occupied`, `cell_empty`, `offer_sold`, `nothing_to_undo`, `resolution_truncated`, `balance_overflow`.
 
-Os preços nas ofertas vêm do protótipo e estão pendentes de D006; o teste deve injetar o mercado da fixture, não sortear.
+Os preços nas ofertas são os de `RELICS` (pendentes de D006) e ficam na fixture só como documentação; o teste injeta o mercado da fixture, não sorteia.
 
-### 3.3 Como a thread 02 consome
-1. Um adaptador converte `setup.relics` em `Grid` + instâncias (`place` de `src/core/grid.ts`).
-2. Roda `resolveNight` com `maxEvents` vindo de `config` (o resolvedor precisa aceitar o limite como parâmetro, ver C-06).
-3. Filtra o log para `EVENT_TYPES` e compara com `toMatchObject` evento a evento, mais `gain`, `curse`, `defeat`, `truncated`, `destroyed`.
-4. Uma divergência entre `src/core` e a fixture é defeito de um dos dois: registrar, não ajustar a fixture em silêncio.
+### 3.3 Como rodam
+- `tests/qa-fixtures.test.ts` (thread de programação) monta a bancada com os IDs da fixture, chama `resolveNight` com `maxEvents` da `config`, filtra os eventos informativos e compara evento a evento com `toMatchObject`, mais ganho, maldição, derrota, truncamento e destruídas. `QA_FIXTURES_DIR` aponta outra pasta.
+- `tests/qa-run-fixtures.test.ts` (QA) parte de `createRun`, sobrescreve o estado com `setup.state`, aplica cada passo com `applyAction` e confere erro ou estado parcial. Também confere SEED-01.
+- Uma divergência é defeito de um dos dois lados: registrar e mandar à thread de programação, não ajustar a fixture em silêncio.
 
 ## 4. Catálogo de fixtures de resolução
 | ID | Verifica | Decisão / pergunta |
@@ -118,9 +118,11 @@ O combo de 60 é válido sob as propostas atuais, mas **depende de A01b**: se o 
 | RUN-14 | vitória na noite 5, sem recompensa | D018 |
 | RUN-15 | bancada cheia: nenhuma recompensa; recusar avança e o reroll volta a 2 | D006 |
 | RUN-16 | destruídas saem da bancada; `destroyedThisRun` e maldição persistem | D002, D003 |
-| RUN-17 | noite truncada não paga nem grava | D004, QA-Q02 |
+| RUN-17 | noite truncada é recusada com `resolution_truncated`, nada gravado | D004, D022 |
+| RUN-18 | ganho que passaria de 1e9 recusa o sino com `balance_overflow` | D004, D022 |
+| RUN-19 | saldo exatamente no teto é aceito | D004 |
 
-Tabela de venda com os preços do protótipo (pendentes D006): vela 4→2, crânio 5→2, moeda 3→1, pena 4→2, espelho 8→4, sino 7→3, fio 7→3, dente 8→4, olho 12→6, ampulheta 13→6, livro 11→5, anel 11→5. Testar também um preço configurado 1 → venda 1 (mínimo). Arbitragem: nenhuma relíquia pode ser vendida por mais do que custou, nem comprada e vendida de volta com lucro.
+Tabela de venda com os preços de `RELICS` (pendentes D006): vela 4→2, crânio 5→2, moeda 3→1, pena 4→2, espelho 8→4, sino 7→3, fio 7→3, dente 8→4, olho 12→6, ampulheta 13→6, livro 11→5, anel 11→5. Testar também um preço configurado 1 → venda 1 (mínimo). Arbitragem: nenhuma relíquia pode ser vendida por mais do que custou, nem comprada e vendida de volta com lucro.
 
 ## 6. Seed, determinismo e prévia (testes de propriedade)
 | ID | Propriedade |
@@ -134,7 +136,7 @@ Tabela de venda com os preços do protótipo (pendentes D006): vela 4→2, crân
 | P-07 | Trocar os IDs mantendo as posições só renomeia os IDs no log (a ordem depende da posição). |
 | P-08 | O fluxo cosmético nunca é lido pelo core de regras; consumir o cosmético não muda nenhum resultado. |
 
-SEED-01 traz o golden do sorteio de mercado para `grave-credit-qa-01` e `grave-credit-qa-02` (ofertas iniciais e após um reroll, com o estado do PRNG em cada ponto). Ele é **provisório**: os pesos 60/30/10 e a ordem do catálogo são do protótipo e mudam com D006. Os vetores do PRNG em si já estão em `tests/rng.test.ts`.
+SEED-01 traz o golden do sorteio de mercado para `grave-credit-qa-01` e `grave-credit-qa-02` (ofertas iniciais e após um reroll, com o estado do PRNG em cada ponto). É um golden de **regressão**, gerado a partir de `src/core`: os estados do PRNG coincidem com os do protótipo, e as relíquias sorteadas mudaram só porque a ordem do catálogo do motor é outra. Se pesos (D006), catálogo ou algoritmo mudarem de propósito, regerar e registrar. Os vetores do PRNG em si já estão em `tests/rng.test.ts`.
 
 ## 7. Fronteiras de maldição (livro despertado por vela)
 | Maldição inicial | Faixa congelada | Ganho do livro | Maldição final | Fixture |
@@ -151,31 +153,33 @@ SEED-01 traz o golden do sorteio de mercado para `grave-credit-qa-01` e `grave-c
 
 Bloqueio de célula (60–89) e consumo (90–99) ficam para P2 (D017) e não têm fixture aqui.
 
-## 8. Conflitos para a thread 00
-| ID | Conflito | Proposta de QA |
+## 8. Conflitos encontrados e como ficaram
+Todos foram respondidos pela thread de programação e registrados em D022; os cenários RUN-05, RUN-17, RUN-18 e LIM-01/02 cobrem as correções.
+
+| ID | Conflito | Situação |
 |---|---|---|
-| C-01 | O protótipo registra `ARM` (olho preparado) e `FIZZLE` (sem efeito), que não estão em `EVENT_TYPES`. | Decidir se entram no contrato. QA recomenda incluir: o jogador precisa ver no log por que um espelho ou anel não fez nada. As fixtures já os ignoram. |
-| C-02 | `COPY_EFFECT` no contrato não tem `amount`, mas a cópia credita óbolos. | Acrescentar `amount` a `COPY_EFFECT` (as fixtures exigem). A alternativa, emitir também `GAIN_CURRENCY`, faria a cópia parecer ganho direto para olho e ampulheta. |
-| C-03 | `END_NIGHT` não diz se houve derrota. | Acrescentar `defeat` (ou um evento próprio). As fixtures guardam `defeat` fora do log por enquanto. |
-| C-04 | O protótipo corta o saldo em 1e9 em silêncio; ARCHITECTURE manda rejeitar com erro explícito. | Seguir ARCHITECTURE no core e corrigir o protótipo. Com o catálogo P1 o teto é inalcançável; testar com saldo inicial injetado perto de 1e9. |
-| C-05 | Compra em célula ocupada: o protótipo põe a relíquia na primeira célula livre; D006 exige célula vazia. | O core rejeita (`cell_occupied`); a UI pode escolher a célula antes de chamar. |
-| C-06 | O limite de 256 é **inalcançável** no catálogo P1: cada instância entra na fila no máximo uma vez (≤ 25 itens) e gera no máximo 3 entradas de log, então uma noite tem no máximo 2 + 25 × 3 = 77 entradas. | O resolvedor deve aceitar `maxEvents` como parâmetro, para que LIM-01/LIM-02 testem o mecanismo com limites 5 e 4. O par 256/257 de D004 só é testável assim. |
+| C-01 | O log precisava mostrar "olho preparado" e "sem efeito". | resolvido: `ARM_MULTIPLIER` e `NO_EFFECT`, só informativos (D019) |
+| C-02 | `COPY_EFFECT` não tinha `amount`. | resolvido |
+| C-03 | `END_NIGHT` não dizia se houve derrota. | resolvido: `END_NIGHT.outcome` (`complete`, `curse_defeat`, `truncated`, `balance_overflow`) |
+| C-04 | O protótipo cortava o saldo em 1e9 em silêncio. | resolvido: o sino é recusado com `balance_overflow` (RUN-18/19) |
+| C-05 | Compra em célula ocupada caía na primeira livre. | resolvido: `cell_occupied` (RUN-05) |
+| C-06 | O limite de 256 é inalcançável no catálogo P1: no máximo 25 itens de fila e 2 + 25 × 3 = 77 entradas de log por noite. | resolvido: `maxEvents` é parâmetro (LIM-01/02); o par 256/257 de D004 só é testável assim |
 
 ## 9. Perguntas abertas (encaminhar à thread 01 ou ao Rafael pela 00)
-| ID | Pergunta | Comportamento atual do protótipo |
+| ID | Pergunta | Comportamento atual do motor |
 |---|---|---|
-| QA-Q01 | O limite conta itens de fila processados ou entradas de log? | itens de fila |
-| QA-Q02 | Noite truncada volta ao estado de antes do sino? | protótipo só marca `truncated`; não há regra de commit |
+| QA-Q01 | O limite conta itens de fila processados ou entradas de log? | o motor conta ativações (itens de fila efetivamente processados; itens pulados por destruição não contam) |
+| QA-Q02 | Noite truncada volta ao estado de antes do sino? | **resolvida (D022):** recusada com `resolution_truncated`, nada gravado |
 | QA-Q03 | `CHANGE_CURSE` com delta 0 (pena em 0) aparece no log? O delta registrado é o efetivo ou o nominal (99 + 8)? | registra sempre, delta efetivo |
 | QA-Q04 | (= A06) Faixa congelada na invocação, inclusive quando a pena baixa a maldição antes do livro (MAL-P2). | congelada |
 | QA-Q05 | Duas ampulhetas repetindo o mesmo ganho direto respeita "repetição não repete repetição"? | sim, as duas repetem |
 | QA-Q06 | O anel pode destruir relíquia já ativada, de início ou a vela que o despertou? | sim, qualquer vizinho vivo |
-| QA-Q07 | (= C-05) Compra exige a célula escolhida vazia? | redireciona |
+| QA-Q07 | (= C-05) Compra exige a célula escolhida vazia? | **resolvida:** sim; sem célula indicada, usa a primeira livre |
 | QA-Q08 | Na derrota por maldição, o ganho da noite entra no saldo? Não muda o resultado, mas muda resumo e save. | entra |
 
 Observação de design para a thread 01: como só vela e fio despertam o anel e ambos são vizinhos dele, o anel praticamente sempre tem alvo; ele só fica sem alvo quando o despertador já foi destruído (DES-03). Na ordem N/L/S/O, o anel destrói o próprio despertador se não houver outro vizinho antes.
 
 ## 10. Não executado e riscos
-- Nenhuma fixture rodou contra `src/core`, porque o resolvedor não existe. A conferência foi contra o protótipo, que é uma implementação de referência das mesmas propostas, não uma prova independente das regras.
-- Persistência (P1-006), simulação (P1-007) e E2E (P1-008) só têm escopo aqui; os casos detalhados vêm quando houver contrato de save.
-- Se D001–D004 mudarem na revisão do Rafael, as fixtures afetadas aparecem pelo campo `decisions` e precisam ser regeradas e reconferidas.
+- As propriedades P-01…P-08 não ganharam testes de QA próprios; a thread de programação já tem testes de determinismo e simulação, e falta conferir se cobrem cada item.
+- Persistência (P1-006) e E2E (P1-008) só têm escopo aqui; os casos detalhados vêm quando houver contrato de save.
+- Se D001–D004 mudarem na revisão do Rafael, as fixtures afetadas aparecem pelo campo `decisions` e precisam ser reescritas.

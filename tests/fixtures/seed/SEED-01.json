@@ -1,29 +1,29 @@
 {
   "id": "SEED-01",
   "category": "seed",
-  "title": "Golden de sorteio de mercado (provisório, depende dos pesos D006)",
+  "title": "Golden de regressão do sorteio de mercado (depende dos pesos D006 e da ordem do catálogo)",
   "decisions": [
     "D006",
     "D013"
   ],
   "weights": {
-    "comum": 60,
-    "incomum": 30,
-    "rara": 10
+    "common": 60,
+    "uncommon": 30,
+    "rare": 10
   },
   "catalogOrder": [
     "candle",
     "skull",
-    "coin",
-    "feather",
     "mirror",
     "bell",
-    "thread",
-    "tooth",
     "eye",
     "hourglass",
     "book",
-    "ring"
+    "feather",
+    "ring",
+    "tooth",
+    "coin",
+    "thread"
   ],
   "algorithm": "Para cada oferta: nextInt(gameplay, soma dos pesos), percorre o catálogo na ordem acima acumulando o peso da raridade de cada definição.",
   "cases": [
@@ -31,17 +31,17 @@
       "seedText": "grave-credit-qa-01",
       "gameplayInitial": 3950086723,
       "market": [
+        "bell",
+        "feather",
         "coin",
-        "mirror",
-        "tooth",
         "candle"
       ],
       "gameplayAfterMarket": 4129288432,
       "rerollMarket": [
-        "bell",
+        "ring",
+        "tooth",
         "thread",
-        "book",
-        "mirror"
+        "feather"
       ],
       "gameplayAfterReroll": 2468767861
     },
@@ -50,19 +50,19 @@
       "gameplayInitial": 2796192909,
       "market": [
         "skull",
-        "thread",
+        "tooth",
         "candle",
-        "thread"
+        "tooth"
       ],
       "gameplayAfterMarket": 1536670307,
       "rerollMarket": [
-        "tooth",
+        "coin",
         "skull",
-        "book",
+        "thread",
         "candle"
       ],
       "gameplayAfterReroll": 4159443218
     }
   ],
-  "notes": "gameplayInitial confere com createStreams(hashSeedText(seedText)).gameplay em src/core/rng.ts. Mercado e reroll vêm do protótipo; regerar se pesos, ordem do catálogo ou algoritmo mudarem."
+  "notes": "Gerado a partir de src/core em 2026-11-27 (RULES_VERSION p1-0.1). gameplayInitial confere com createStreams(hashSeedText(seedText)).gameplay. Serve para detectar mudança acidental no sorteio; se pesos, catálogo ou algoritmo mudarem de propósito, regerar e registrar."
 }
