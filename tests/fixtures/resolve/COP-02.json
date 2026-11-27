@@ -1,0 +1,66 @@
+{
+  "id": "COP-02",
+  "category": "copia",
+  "title": "Espelho copia o livro: 18 sem bônus abissal e sem maldição",
+  "decisions": [
+    "D003",
+    "D004"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 30,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "book",
+        "row": 2,
+        "col": 0
+      },
+      {
+        "id": 2,
+        "def": "mirror",
+        "row": 2,
+        "col": 1
+      },
+      {
+        "id": 3,
+        "def": "candle",
+        "row": 1,
+        "col": 1
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "COPY_EFFECT",
+        "sourceId": 2,
+        "targetId": 1,
+        "amount": 18
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 18,
+    "curse": 30,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  }
+}

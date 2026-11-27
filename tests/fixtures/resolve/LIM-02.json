@@ -1,0 +1,98 @@
+{
+  "id": "LIM-02",
+  "category": "limite",
+  "title": "Um item além do limite trunca e invalida a noite (análogo a 257)",
+  "decisions": [
+    "D004"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 2,
+        "def": "skull",
+        "row": 1,
+        "col": 2
+      },
+      {
+        "id": 3,
+        "def": "skull",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": 4,
+        "def": "skull",
+        "row": 3,
+        "col": 2
+      },
+      {
+        "id": 5,
+        "def": "skull",
+        "row": 2,
+        "col": 1
+      }
+    ]
+  },
+  "config": {
+    "maxEvents": 4
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 2,
+        "amount": 10
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 3,
+        "amount": 10
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 4
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 4,
+        "amount": 10
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": true
+      }
+    ],
+    "gain": 30,
+    "curse": 0,
+    "defeat": false,
+    "truncated": true,
+    "destroyed": []
+  },
+  "notes": "Noite truncada é erro de resolução: o run loop não paga nem grava (D004)."
+}

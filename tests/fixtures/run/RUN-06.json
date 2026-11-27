@@ -1,0 +1,211 @@
+{
+  "id": "RUN-06",
+  "category": "run",
+  "title": "Compra com bancada cheia é rejeitada",
+  "decisions": [
+    "D006"
+  ],
+  "setup": {
+    "state": {
+      "night": 1,
+      "phase": "organize",
+      "balance": 50,
+      "curse": 0,
+      "destroyedThisRun": 0,
+      "rerollCost": 2,
+      "nextId": 26,
+      "relics": [
+        {
+          "id": 1,
+          "def": "coin",
+          "row": 0,
+          "col": 0
+        },
+        {
+          "id": 2,
+          "def": "coin",
+          "row": 0,
+          "col": 1
+        },
+        {
+          "id": 3,
+          "def": "coin",
+          "row": 0,
+          "col": 2
+        },
+        {
+          "id": 4,
+          "def": "coin",
+          "row": 0,
+          "col": 3
+        },
+        {
+          "id": 5,
+          "def": "coin",
+          "row": 0,
+          "col": 4
+        },
+        {
+          "id": 6,
+          "def": "coin",
+          "row": 1,
+          "col": 0
+        },
+        {
+          "id": 7,
+          "def": "coin",
+          "row": 1,
+          "col": 1
+        },
+        {
+          "id": 8,
+          "def": "coin",
+          "row": 1,
+          "col": 2
+        },
+        {
+          "id": 9,
+          "def": "coin",
+          "row": 1,
+          "col": 3
+        },
+        {
+          "id": 10,
+          "def": "coin",
+          "row": 1,
+          "col": 4
+        },
+        {
+          "id": 11,
+          "def": "coin",
+          "row": 2,
+          "col": 0
+        },
+        {
+          "id": 12,
+          "def": "coin",
+          "row": 2,
+          "col": 1
+        },
+        {
+          "id": 13,
+          "def": "coin",
+          "row": 2,
+          "col": 2
+        },
+        {
+          "id": 14,
+          "def": "coin",
+          "row": 2,
+          "col": 3
+        },
+        {
+          "id": 15,
+          "def": "coin",
+          "row": 2,
+          "col": 4
+        },
+        {
+          "id": 16,
+          "def": "coin",
+          "row": 3,
+          "col": 0
+        },
+        {
+          "id": 17,
+          "def": "coin",
+          "row": 3,
+          "col": 1
+        },
+        {
+          "id": 18,
+          "def": "coin",
+          "row": 3,
+          "col": 2
+        },
+        {
+          "id": 19,
+          "def": "coin",
+          "row": 3,
+          "col": 3
+        },
+        {
+          "id": 20,
+          "def": "coin",
+          "row": 3,
+          "col": 4
+        },
+        {
+          "id": 21,
+          "def": "coin",
+          "row": 4,
+          "col": 0
+        },
+        {
+          "id": 22,
+          "def": "coin",
+          "row": 4,
+          "col": 1
+        },
+        {
+          "id": 23,
+          "def": "coin",
+          "row": 4,
+          "col": 2
+        },
+        {
+          "id": 24,
+          "def": "coin",
+          "row": 4,
+          "col": 3
+        },
+        {
+          "id": 25,
+          "def": "coin",
+          "row": 4,
+          "col": 4
+        }
+      ],
+      "market": [
+        {
+          "def": "skull",
+          "price": 5,
+          "sold": false
+        },
+        {
+          "def": "coin",
+          "price": 3,
+          "sold": false
+        },
+        {
+          "def": "eye",
+          "price": 12,
+          "sold": false
+        },
+        {
+          "def": "mirror",
+          "price": 8,
+          "sold": false
+        }
+      ]
+    }
+  },
+  "steps": [
+    {
+      "action": {
+        "type": "buy",
+        "offer": 0,
+        "at": {
+          "row": 0,
+          "col": 0
+        }
+      },
+      "expect": {
+        "ok": false,
+        "error": "cell_occupied",
+        "stateUnchanged": true,
+        "rngUnchanged": true
+      }
+    }
+  ]
+}

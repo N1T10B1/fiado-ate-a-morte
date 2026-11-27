@@ -1,0 +1,53 @@
+{
+  "id": "BOR-03",
+  "category": "bordas",
+  "title": "Espelho na coluna 0 não tem esquerda",
+  "decisions": [
+    "D003"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 1,
+        "col": 0
+      },
+      {
+        "id": 2,
+        "def": "mirror",
+        "row": 2,
+        "col": 0
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 0,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  }
+}

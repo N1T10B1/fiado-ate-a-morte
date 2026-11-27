@@ -1,0 +1,88 @@
+{
+  "id": "RUN-03",
+  "category": "run",
+  "title": "Compra válida em célula vazia",
+  "decisions": [
+    "D006"
+  ],
+  "setup": {
+    "state": {
+      "night": 1,
+      "phase": "organize",
+      "balance": 12,
+      "curse": 0,
+      "destroyedThisRun": 0,
+      "rerollCost": 2,
+      "nextId": 4,
+      "relics": [
+        {
+          "id": 1,
+          "def": "candle",
+          "row": 2,
+          "col": 1
+        },
+        {
+          "id": 2,
+          "def": "skull",
+          "row": 2,
+          "col": 2
+        },
+        {
+          "id": 3,
+          "def": "feather",
+          "row": 0,
+          "col": 4
+        }
+      ],
+      "market": [
+        {
+          "def": "skull",
+          "price": 5,
+          "sold": false
+        },
+        {
+          "def": "coin",
+          "price": 3,
+          "sold": false
+        },
+        {
+          "def": "eye",
+          "price": 12,
+          "sold": false
+        },
+        {
+          "def": "mirror",
+          "price": 8,
+          "sold": false
+        }
+      ]
+    }
+  },
+  "steps": [
+    {
+      "action": {
+        "type": "buy",
+        "offer": 0,
+        "at": {
+          "row": 0,
+          "col": 0
+        }
+      },
+      "expect": {
+        "ok": true,
+        "state": {
+          "balance": 7,
+          "nextId": 5,
+          "relicAdded": {
+            "id": 4,
+            "def": "skull",
+            "row": 0,
+            "col": 0
+          },
+          "offerSold": 0,
+          "undoCleared": true
+        }
+      }
+    }
+  ]
+}

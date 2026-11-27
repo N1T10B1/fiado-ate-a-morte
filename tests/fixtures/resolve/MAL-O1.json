@@ -1,0 +1,74 @@
+{
+  "id": "MAL-O1",
+  "category": "maldicao",
+  "title": "Bônus abissal antes do olho: floor(18×1,25)×2 = 44",
+  "decisions": [
+    "D003",
+    "D004"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 30,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 2,
+        "def": "eye",
+        "row": 1,
+        "col": 2
+      },
+      {
+        "id": 3,
+        "def": "book",
+        "row": 2,
+        "col": 3
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 3,
+        "amount": 44
+      },
+      {
+        "type": "CHANGE_CURSE",
+        "sourceId": 3,
+        "delta": 8
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 44,
+    "curse": 38,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  }
+}

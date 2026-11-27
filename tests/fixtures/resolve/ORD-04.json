@@ -1,0 +1,102 @@
+{
+  "id": "ORD-04",
+  "category": "ordem",
+  "title": "Vela não desperta relíquias de início (moeda, pena, outra vela)",
+  "decisions": [
+    "D001"
+  ],
+  "questions": [
+    "A02"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 2,
+        "def": "coin",
+        "row": 1,
+        "col": 2
+      },
+      {
+        "id": 3,
+        "def": "feather",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": 4,
+        "def": "candle",
+        "row": 3,
+        "col": 2
+      },
+      {
+        "id": 5,
+        "def": "skull",
+        "row": 2,
+        "col": 1
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 2,
+        "amount": 4
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "CHANGE_CURSE",
+        "sourceId": 3,
+        "delta": 0
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 4
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 5
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 5,
+        "amount": 10
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 14,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  },
+  "notes": "Cada relíquia de início ativa uma única vez, pela fila inicial."
+}

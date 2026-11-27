@@ -1,0 +1,76 @@
+{
+  "id": "DES-03",
+  "category": "destruicao",
+  "title": "Anel sem alvo não ganha; anel anterior destruiu a vela",
+  "decisions": [
+    "D002"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 2,
+        "def": "ring",
+        "row": 1,
+        "col": 2
+      },
+      {
+        "id": 3,
+        "def": "ring",
+        "row": 2,
+        "col": 1
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "DESTROY",
+        "sourceId": 2,
+        "targetId": 1
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 2,
+        "amount": 16
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 16,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": [
+      1
+    ]
+  },
+  "notes": "A célula da vela destruída fica vazia na mesma noite para o segundo anel."
+}

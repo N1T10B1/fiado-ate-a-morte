@@ -1,0 +1,61 @@
+{
+  "id": "ORD-09",
+  "category": "ordem",
+  "title": "Fio sem alvo ainda soma +2 de maldição",
+  "decisions": [
+    "D002"
+  ],
+  "questions": [
+    "A04"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 2,
+        "def": "thread",
+        "row": 2,
+        "col": 3
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "CHANGE_CURSE",
+        "sourceId": 2,
+        "delta": 2
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 0,
+    "curse": 2,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "id": "MAL-P2",
+  "category": "maldicao",
+  "title": "Faixa congelada: pena baixa de 32 para 27, livro mantém +25%",
+  "decisions": [
+    "D004",
+    "D005"
+  ],
+  "questions": [
+    "A06"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 32,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "feather",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": 2,
+        "def": "candle",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 3,
+        "def": "book",
+        "row": 2,
+        "col": 3
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "CHANGE_CURSE",
+        "sourceId": 1,
+        "delta": -5
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 3,
+        "amount": 22
+      },
+      {
+        "type": "CHANGE_CURSE",
+        "sourceId": 3,
+        "delta": 8
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 22,
+    "curse": 35,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  }
+}

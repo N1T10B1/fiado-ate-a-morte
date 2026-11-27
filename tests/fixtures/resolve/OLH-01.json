@@ -1,0 +1,83 @@
+{
+  "id": "OLH-01",
+  "category": "multiplicador",
+  "title": "Olho dobra o próximo ganho direto de outra relíquia, uma vez",
+  "decisions": [
+    "D003"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 2,
+        "def": "eye",
+        "row": 1,
+        "col": 2
+      },
+      {
+        "id": 3,
+        "def": "skull",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": 4,
+        "def": "skull",
+        "row": 3,
+        "col": 2
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 3,
+        "amount": 20
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 4
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 4,
+        "amount": 10
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 30,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  }
+}

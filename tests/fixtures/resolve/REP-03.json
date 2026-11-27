@@ -1,0 +1,111 @@
+{
+  "id": "REP-03",
+  "category": "repeticao",
+  "title": "Ampulheta ignora cópia e repetição: duas ampulhetas repetem o mesmo ganho direto",
+  "decisions": [
+    "D003"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "skull",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": 2,
+        "def": "mirror",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": 3,
+        "def": "candle",
+        "row": 1,
+        "col": 1
+      },
+      {
+        "id": 4,
+        "def": "hourglass",
+        "row": 1,
+        "col": 2
+      },
+      {
+        "id": 5,
+        "def": "hourglass",
+        "row": 2,
+        "col": 1
+      },
+      {
+        "id": 6,
+        "def": "coin",
+        "row": 4,
+        "col": 4
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 6
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 6,
+        "amount": 4
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "COPY_EFFECT",
+        "sourceId": 2,
+        "targetId": 1,
+        "amount": 10
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 4
+      },
+      {
+        "type": "REPEAT_GAIN",
+        "sourceId": 4,
+        "amount": 4
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 5
+      },
+      {
+        "type": "REPEAT_GAIN",
+        "sourceId": 5,
+        "amount": 4
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 22,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  },
+  "notes": "Último ganho direto é a moeda (4); a cópia (10) e a repetição não contam. Ver QA-Q05."
+}

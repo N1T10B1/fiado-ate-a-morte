@@ -1,0 +1,105 @@
+{
+  "id": "ORD-02",
+  "category": "ordem",
+  "title": "Ordem de leitura vence ordem de ID; derivados vão para o fim da fila",
+  "decisions": [
+    "D001",
+    "D002"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "coin",
+        "row": 4,
+        "col": 4
+      },
+      {
+        "id": 2,
+        "def": "candle",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 3,
+        "def": "coin",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": 4,
+        "def": "feather",
+        "row": 0,
+        "col": 3
+      },
+      {
+        "id": 5,
+        "def": "skull",
+        "row": 2,
+        "col": 3
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 3,
+        "amount": 4
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 4
+      },
+      {
+        "type": "CHANGE_CURSE",
+        "sourceId": 4,
+        "delta": 0
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 1,
+        "amount": 4
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 5
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 5,
+        "amount": 10
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 18,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  },
+  "notes": "Fila inicial por posição: #3 (0,0), #4 (0,3), #2 (2,2), #1 (4,4). O crânio despertado pela vela só ativa depois da moeda #1."
+}

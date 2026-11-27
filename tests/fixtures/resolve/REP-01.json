@@ -1,0 +1,98 @@
+{
+  "id": "REP-01",
+  "category": "repeticao",
+  "title": "Ampulheta repete o último ganho direto creditado (já dobrado), sem novo ×2",
+  "decisions": [
+    "D003"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 2,
+        "def": "eye",
+        "row": 1,
+        "col": 2
+      },
+      {
+        "id": 3,
+        "def": "skull",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": 4,
+        "def": "hourglass",
+        "row": 3,
+        "col": 2
+      },
+      {
+        "id": 5,
+        "def": "skull",
+        "row": 2,
+        "col": 1
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 3,
+        "amount": 20
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 4
+      },
+      {
+        "type": "REPEAT_GAIN",
+        "sourceId": 4,
+        "amount": 20
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 5
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 5,
+        "amount": 10
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 50,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  }
+}

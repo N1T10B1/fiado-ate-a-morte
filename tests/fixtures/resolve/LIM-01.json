@@ -1,0 +1,107 @@
+{
+  "id": "LIM-01",
+  "category": "limite",
+  "title": "Limite exatamente atingido não trunca (análogo a 256)",
+  "decisions": [
+    "D004"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 2,
+        "def": "skull",
+        "row": 1,
+        "col": 2
+      },
+      {
+        "id": 3,
+        "def": "skull",
+        "row": 2,
+        "col": 3
+      },
+      {
+        "id": 4,
+        "def": "skull",
+        "row": 3,
+        "col": 2
+      },
+      {
+        "id": 5,
+        "def": "skull",
+        "row": 2,
+        "col": 1
+      }
+    ]
+  },
+  "config": {
+    "maxEvents": 5
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 2,
+        "amount": 10
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 3,
+        "amount": 10
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 4
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 4,
+        "amount": 10
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 5
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 5,
+        "amount": 10
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 40,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  },
+  "notes": "Com maxEvents=5 há 5 itens de fila processados. Contagem por item de fila processado, como no protótipo (QA-Q01)."
+}

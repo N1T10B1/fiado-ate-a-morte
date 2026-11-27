@@ -1,0 +1,79 @@
+{
+  "id": "BOR-01",
+  "category": "bordas",
+  "title": "Vela no canto (0,0): só L e S; diagonal não conta",
+  "decisions": [
+    "D001"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 0,
+        "col": 0
+      },
+      {
+        "id": 2,
+        "def": "skull",
+        "row": 0,
+        "col": 1
+      },
+      {
+        "id": 3,
+        "def": "skull",
+        "row": 1,
+        "col": 0
+      },
+      {
+        "id": 4,
+        "def": "skull",
+        "row": 1,
+        "col": 1
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 2,
+        "amount": 10
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 3,
+        "amount": 10
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 20,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  }
+}

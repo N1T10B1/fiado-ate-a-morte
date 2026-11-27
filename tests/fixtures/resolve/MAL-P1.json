@@ -1,0 +1,48 @@
+{
+  "id": "MAL-P1",
+  "category": "maldicao",
+  "title": "Pena não desce abaixo de 0",
+  "decisions": [
+    "D004"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 3,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "feather",
+        "row": 0,
+        "col": 0
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "CHANGE_CURSE",
+        "sourceId": 1,
+        "delta": -3
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 0,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  }
+}

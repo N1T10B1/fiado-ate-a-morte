@@ -1,0 +1,74 @@
+{
+  "id": "ORD-01",
+  "category": "ordem",
+  "title": "Tutorial: vela ao lado do crânio, pena no canto",
+  "decisions": [
+    "D001"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 2,
+        "col": 1
+      },
+      {
+        "id": 2,
+        "def": "skull",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 3,
+        "def": "feather",
+        "row": 0,
+        "col": 4
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "CHANGE_CURSE",
+        "sourceId": 3,
+        "delta": 0
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 2,
+        "amount": 10
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 10,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  },
+  "notes": "Pena (linha 0) entra antes da vela (linha 2). Com maldição 0 a pena registra delta 0 (ver QA-Q03). Ganho 10 paga o tributo da noite 1."
+}

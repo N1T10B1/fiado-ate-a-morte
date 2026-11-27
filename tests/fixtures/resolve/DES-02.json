@@ -1,0 +1,81 @@
+{
+  "id": "DES-02",
+  "category": "destruicao",
+  "title": "Relíquia destruída enquanto reservada na fila não ativa",
+  "decisions": [
+    "D001"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 0,
+    "relics": [
+      {
+        "id": 1,
+        "def": "candle",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 2,
+        "def": "ring",
+        "row": 1,
+        "col": 2
+      },
+      {
+        "id": 3,
+        "def": "skull",
+        "row": 1,
+        "col": 3
+      },
+      {
+        "id": 4,
+        "def": "candle",
+        "row": 2,
+        "col": 3
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 4
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "DESTROY",
+        "sourceId": 2,
+        "targetId": 3
+      },
+      {
+        "type": "GAIN_CURRENCY",
+        "sourceId": 2,
+        "amount": 16
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 16,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": [
+      3
+    ]
+  }
+}

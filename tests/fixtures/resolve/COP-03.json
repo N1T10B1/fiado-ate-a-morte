@@ -1,0 +1,79 @@
+{
+  "id": "COP-03",
+  "category": "copia",
+  "title": "Espelho não copia dente (dinâmico) nem outro espelho",
+  "decisions": [
+    "D003"
+  ],
+  "setup": {
+    "night": 1,
+    "curse": 0,
+    "destroyedThisRun": 2,
+    "relics": [
+      {
+        "id": 1,
+        "def": "tooth",
+        "row": 2,
+        "col": 0
+      },
+      {
+        "id": 2,
+        "def": "mirror",
+        "row": 2,
+        "col": 1
+      },
+      {
+        "id": 3,
+        "def": "mirror",
+        "row": 2,
+        "col": 2
+      },
+      {
+        "id": 4,
+        "def": "candle",
+        "row": 1,
+        "col": 1
+      },
+      {
+        "id": 5,
+        "def": "candle",
+        "row": 1,
+        "col": 2
+      }
+    ]
+  },
+  "expected": {
+    "log": [
+      {
+        "type": "START_NIGHT",
+        "night": 1
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 4
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 5
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 2
+      },
+      {
+        "type": "ACTIVATE",
+        "sourceId": 3
+      },
+      {
+        "type": "END_NIGHT",
+        "night": 1,
+        "truncated": false
+      }
+    ],
+    "gain": 0,
+    "curse": 0,
+    "defeat": false,
+    "truncated": false,
+    "destroyed": []
+  }
+}
