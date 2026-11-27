@@ -21,7 +21,7 @@ As 46 fixtures de resolução também conferiram com o motor do protótipo HTML 
 | Fixture de resolução | bancada + maldição → log, ganho, maldição, derrota | `tests/fixtures/resolve/`, `tests/qa-fixtures.test.ts` | ✓ |
 | Propriedade | determinismo, limites, não mutação (seção 6) | `tests/resolve.test.ts`, `tests/run.test.ts`, `tests/simulation.test.ts` (thread 02); conferir cobertura de P-01…P-08 | parcial |
 | Cenário de partida | compra, venda, reroll, desfazer, tributo, vitória, derrota, recompensa | `tests/fixtures/run/`, `tests/qa-run-fixtures.test.ts` | ✓ |
-| Persistência | save versionado, reload idempotente, corrupção | a definir | P1-006 |
+| Persistência | save versionado, reload idempotente, corrupção | `tests/save.test.ts` (thread 02), `tests/qa-save.test.ts` (QA, seção 11) | ✓ parcial |
 | Simulação | estratégias aleatória, gananciosa, sinergia, conservadora | `tests/sim/` | P1-007 |
 | E2E / playtest | toque, teclado, 360 px, partida completa | `docs/PLAYTEST.md` | P1-008 |
 
@@ -181,5 +181,23 @@ Observação de design para a thread 01: como só vela e fio despertam o anel e 
 
 ## 10. Não executado e riscos
 - As propriedades P-01…P-08 não ganharam testes de QA próprios; a thread de programação já tem testes de determinismo e simulação, e falta conferir se cobrem cada item.
-- Persistência (P1-006) e E2E (P1-008) só têm escopo aqui; os casos detalhados vêm quando houver contrato de save.
+- E2E (P1-008) só tem escopo aqui.
+- Três lacunas de validação do save (seção 11) estão com a thread de programação; não há teste vermelho no repositório para elas.
 - Se D001–D004 mudarem na revisão do Rafael, as fixtures afetadas aparecem pelo campo `decisions` e precisam ser reescritas.
+
+## 11. Save e reload (P1-006)
+API: `saveRun`, `loadRun`, `parse` em `src/persistence/save.ts`; envelope `{schemaVersion: 1, rulesVersion, state}` na chave `grave-credit.run`, backup em `grave-credit.run.corrupt`. `tests/qa-save.test.ts` acrescenta:
+
+| ID | Verifica |
+|---|---|
+| SAV-01 | 12 partidas completas por política fixa: gravar, recarregar e seguir do estado recarregado a cada passo dá o mesmo estado final que jogar sem recarga |
+| SAV-02 | as partidas passam por organização, recompensa e fim (cobertura das fases) |
+| SAV-03 | recarregar na fase de recompensa três vezes não muda opções, PRNG nem saldo (sem farm de recompensa) |
+| SAV-04 | 24 saves danificados (JSON truncado, tipos errados, `schemaVersion` 0/1,5/"1", maldição 101/−1, saldo −1/1,5/acima do teto, noite 0/6, fase desconhecida, PRNG zerado, seed ausente, ID duplicado, instância órfã, relíquia desconhecida, `nextId` baixo, grade 4×4, mercado inválido) → `corrupt`, original intacto no backup, partida nova grava |
+| SAV-05 | schema futuro e `rulesVersion` diferente → `incompatible`, com backup |
+| SAV-06 | falha de gravação devolve `false` e não toca no save anterior |
+
+Lacunas encontradas e enviadas à thread de programação (o `parse` aceita como `ok`):
+- `undoStack` com grade malformada: o `undo` restaura uma grade com instância inexistente e o sino seguinte lança `Instância 77 na grade sem definição`, derrubando a partida.
+- `market[].sold` que não é booleano.
+- `lastNight` com formato arbitrário, que a UI lê para mostrar o log.
