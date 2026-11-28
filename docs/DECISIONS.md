@@ -1,5 +1,7 @@
-# Registro de decisões — v0.1.0
-Nenhuma decisão nova de gameplay aprovada explicitamente nesta abertura. Baseline herdada: Prompt Mestre v0.1 e mandato de iniciar P0. As propostas abaixo exigem revisão do diretor e threads 01/02/09. Status de todas: PROPOSTA.
+# Registro de decisões — v0.3.0
+D001–D009: abertura v0.1.0, todas PROPOSTA. D010–D016: v0.2.0. Status: APROVADA (diretor), PROPOSTA, HIPÓTESE (detalhe técnico reversível decidido pela coordenação) ou PENDENTE DIRETOR.
+
+Na abertura v0.1.0 nenhuma decisão nova de gameplay foi aprovada explicitamente. Baseline herdada: Prompt Mestre v0.1 e mandato de iniciar P0. As propostas abaixo exigem revisão do diretor e threads 01/02/09. Status de todas: PROPOSTA.
 
 | ID | Questão | Proposta para P1 | Evidência/critério |
 |---|---|---|---|
@@ -10,7 +12,34 @@ Nenhuma decisão nova de gameplay aprovada explicitamente nesta abertura. Baseli
 | D005 | Penalidades por faixa | congelar faixa no começo; implementar bônus e derrota primeiro; avaliar bloqueio/consumo antes de P2, com autorização explícita de adiamento; tag abyss candidata apenas book inicialmente | fronteiras e risco/recompensa verificáveis |
 | D006 | Mercado e recompensas | ofertas de instância única por slot, duplicatas de definição permitidas; compra exige célula vazia e saldo; venda remove instância; reroll reinicia por noite; recompensas candidatas três relíquias gratuitas distintas quando espaço, recusa sempre, se não houver espaço nenhuma oferta; tabela de raridade/preço/pesos a formalizar por 01/08; iniciais colocados em posições didáticas por fixture | transações atômicas, sem arbitragem, grade cheia, primeira noite compreensível |
 | D007 | Última noite | mestre pede modificador especial; proposta adiar regra especial para P2, P1 quinta noite usa tributo normal e vitória após pagamento; sem recompensa final | fluxo vitória testável; diretor decide se prefere modificador simples já em P1 |
-| D008 | Contrato técnico | coordenadas base zero, ID sequencial, xorshift32 com seed zero normalizada, streams separados, estado/log tipado, checkpoint estável; nomes conforme arquitetura | vetor PRNG, mesmas ações/seed, nenhuma dependência de DOM |
+| D008 | Contrato técnico (**parcialmente implementado em P1-001**, ver D013) | coordenadas base zero, ID sequencial, xorshift32 com seed zero normalizada, streams separados, estado/log tipado, checkpoint estável; nomes conforme arquitetura | vetor PRNG, mesmas ações/seed, nenhuma dependência de DOM |
 | D009 | Undo e fronteiras | undo apenas posicionamentos desde última compra/venda/reroll, limpar histórico em transação e invocação; pagamento/recompensa idempotentes; reset preserva configurações | testes de duplicação e reload |
 
 Pontos de revisão: D002/D003 precisam de fixture real do combo 60; se impossível, documentar e propor cadeia alternativa sem falsear resultado. D005 e D007 são adiamentos de escopo, não decisões tomadas. A tabela de preços/tags/pesos deve estar aprovada antes do gate. Nenhum número de sucesso de playtest foi medido. Nome comercial ainda não verificado.
+
+## v0.2.0 — 2026-11-27
+
+| ID | Status | Decisão | Origem / evidência |
+|---|---|---|---|
+| D010 | APROVADA | Nome do jogo passa a ser **Grave Credit** em docs, código e título. "Fiado até a Morte" vira título de trabalho histórico. Repositório não é renomeado. Verificação comercial/marca ainda pendente antes de publicar. | Rafael, 2026-11-27 |
+| D011 | APROVADA | Claude (Claude Code) é o implementador principal; Codex deixa de ser dependência. ChatGPT gera as imagens finais a partir de pedidos em `docs/ASSET_REQUESTS.md`. | Prompt Mestre Claude 1.0 enviado por Rafael |
+| D012 | APROVADA | P1-001 (fundação: grade, PRNG, fila) executado antes do gate P0, pois não depende de D001–D009. Resolvedor de relíquias (P1-002) segue aguardando D001–D004. | Pedido do Rafael para iniciar implementação |
+| D013 | HIPÓTESE | PRNG xorshift32 (13/17/5), estado `{s: uint32}`; seed 0 (mod 2³²) → 0x9E3779B9; seed textual por FNV-1a 32 sobre UTF-8; fluxos gameplay/cosmético derivados por mistura splitmix32 com sal 1/2; inteiros por rejeição sem viés. Coordenadas base zero `{row,col}`; IDs inteiros ≥ 0. Grade imutável, operações devolvem `Result`. `swap` aceita uma célula vazia; `move` exige destino vazio. | `tests/rng.test.ts`, `tests/grid.test.ts` |
+| D014 | APROVADA | Só **Grave Credit** em todos os idiomas, inclusive pt-BR. "Fiado até a Morte" fica apenas como histórico. | Rafael, 2026-11-27 |
+| D015 | HIPÓTESE | Toolchain: Node ≥ 22.12, Vite 8.4.0, Vitest 5.1.2, TypeScript 5.9.3 (não a 7.x, por estabilidade), versões exatas no lockfile. `tsconfig.core.json` sem lib DOM impede DOM no core em tempo de compilação. | `npm run typecheck` |
+| D016 | HIPÓTESE | Branch de trabalho do ambiente Claude: `claude/<thread>`; prefixos feature/fix/art/docs continuam valendo para threads manuais. | Restrição do ambiente |
+
+| D017 | APROVADA | D005 (escopo): em P1, maldição implementa só os bônus por faixa e a derrota em 100; bloqueio de célula (60–89) e consumo de relíquia (90–99) ficam para P2. | Rafael, 2026-11-27 |
+| D018 | APROVADA | D007 (escopo): em P1, a quinta noite usa tributo normal (100), vitória após o pagamento, sem modificador especial e sem recompensa final. Modificador da última noite volta em P2. | Rafael, 2026-11-27 |
+
+## v0.3.0 — 2026-11-27 (P1-002 a P1-005)
+Implementação seguiu as propostas D001–D004/D006/D009 como hipóteses; os pontos abaixo são as escolhas concretas feitas no código. Todas HIPÓTESE até revisão das threads 01/09.
+
+| ID | Status | Decisão | Evidência |
+|---|---|---|---|
+| D019 | HIPÓTESE | Log ganha dois tipos informativos: `ARM_MULTIPLIER` (olho preparado) e `NO_EFFECT` (relíquia ativou sem alvo). O limite de 256 conta ativações processadas, não linhas do log; ao exceder, a noite termina com `outcome: truncated`. | `src/core/events.ts`, `tests/resolve.test.ts` |
+| D020 | HIPÓTESE | Espelho copia o ganho-base estático (crânio 10, moeda 4, livro 18) da célula à esquerda mesmo que ela não tenha ativado; não copia maldição nem bônus, não consome olho. Ampulheta repete o último ganho **direto** creditado já com bônus e olho. Anel escolhe o primeiro vizinho vivo N/E/S/O, inclusive relíquia já ativada. Dente conta destruídas da partida inteira, incluindo as desta noite. Bônus abissal só no livro. | fixtures em `tests/resolve.test.ts` |
+| D021 | HIPÓTESE | Compra vai para a célula vazia escolhida ou a primeira livre em ordem de leitura; recompensa escolhida vai para a primeira livre. Desfazer cobre só movimentos desde a última compra, venda, renovação ou noite. Venda credita `max(1, floor(preço/2))`. Preços: comuns 3–5, incomuns 7–8, raras 11–13; pesos 60/30/10. | `src/core/run.ts`, `src/core/relics.ts` |
+| A08 | PARA 01 | Achado de design (corrigido pela thread 01, ver D025 do PR #9): no P1 o Anel **sempre tem alvo**, porque quem o desperta (vela ou fio) é vizinho vivo; ele destrói o primeiro vizinho ocupado em N/L/S/O, que só é o despertador quando este vem primeiro nessa ordem. Decisão de manter ou mudar fica com o Rafael via thread 01. | `tests/resolve.test.ts` ("anel sempre tem alvo") |
+| D026 | HIPÓTESE | Achados C-01…C-06 do QA: log já cobre olho preparado, sem efeito, valor da cópia e resultado da noite; `maxEvents` é parâmetro. Saldo nunca é truncado: se saldo + ganho passar de 1e9, a noite termina com `balance_overflow` e `ring` é recusado sem gravar; venda acima do teto é recusada. Noite truncada também é recusada (`resolution_truncated`), estado fica como antes do sino (QA-Q02). Compra em célula ocupada é recusada (`cell_occupied`). | `tests/qa-fixtures.test.ts`: as 46 fixtures de resolução do QA passam contra `src/core` |
+| D027 | HIPÓTESE | Save: envelope `{schemaVersion: 1, rulesVersion, state}` em localStorage (`grave-credit.run`), gravado após cada ação aceita. Como `ring` já grava o resultado da noite no estado antes da animação, não existe estado intermediário a salvar. Versão de regras diferente não é migrada no P1: o save vai para backup e a partida recomeça com aviso. O laboratório não é salvo. | `tests/save.test.ts` |

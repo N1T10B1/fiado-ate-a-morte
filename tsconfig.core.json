@@ -1,0 +1,9 @@
+{
+  "//": "Garante que src/core não use DOM, timers de navegador ou tipos do Vite.",
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "types": []
+  },
+  "include": ["src/core"]
+}

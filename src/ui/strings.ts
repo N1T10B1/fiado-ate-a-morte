@@ -1,0 +1,93 @@
+/** Textos de UI por chave (pt-BR). O motor nunca contém strings de interface. */
+import type { NoEffectReason } from '../core/events';
+import type { Rarity, RelicId } from '../core/relics';
+
+export const ptBR = {
+  'app.title': 'Grave Credit',
+  'app.tagline': 'Até os mortos têm dívidas.',
+  'app.prototype': 'Protótipo P1 com placeholders. Regras em hipótese (D001–D004).',
+  'tab.run': 'Partida',
+  'tab.lab': 'Laboratório',
+  'ledger.night': 'Noite',
+  'ledger.mode': 'Modo',
+  'ledger.balance': 'Óbolos',
+  'ledger.tribute': 'Tributo da noite',
+  'ledger.curse': 'Maldição',
+  'ledger.labGain': 'Ganho da bancada',
+  'band.stable': 'estável',
+  'band.uneasy': 'inquietação: abissais +25%',
+  'band.torment': 'tormenta: abissais +50%',
+  'band.abyss': 'abismo: abissais +100%',
+  'band.doom': 'derrota',
+  'bench.label': 'Bancada 5 por 5',
+  'bench.empty': 'vazia',
+  'bench.start': 'início',
+  'action.ring': 'Tocar o sino',
+  'action.undo': 'Desfazer posição',
+  'action.sell': 'Vender',
+  'action.speed': 'Velocidade',
+  'speed.instant': 'instantânea',
+  'preview.gain': 'Prévia: ganho',
+  'preview.curse': 'maldição',
+  'preview.after': 'saldo após tributo',
+  'preview.defeat': 'derrota',
+  'preview.destroyed': 'destruídas',
+  'preview.resolving': 'Resolvendo…',
+  'log.title': 'Livro-caixa da noite',
+  'log.empty': 'Toque o sino para ver a resolução evento a evento.',
+  'market.title': 'Mercado da meia-noite',
+  'market.hint': 'A compra vai para a célula vazia selecionada ou para a primeira livre.',
+  'market.reroll': 'Renovar ofertas',
+  'market.sold': 'vendida',
+  'reward.title': 'Recompensa do proprietário',
+  'reward.pick': 'Escolha uma relíquia gratuita ou recuse.',
+  'reward.full': 'A bancada está cheia: nenhuma relíquia pode ser oferecida.',
+  'reward.skip': 'Recusar e seguir',
+  'reward.free': 'grátis',
+  'over.title': 'Contrato encerrado',
+  'over.hint': 'Comece outra partida abaixo.',
+  'seed.label': 'Seed',
+  'seed.restart': 'Nova partida com esta seed',
+  'seed.new': 'Seed nova',
+  'again': 'Jogar de novo (seed nova)',
+  'lab.title': 'Laboratório de combos',
+  'lab.hint': 'Escolha uma relíquia e toque numa célula vazia para colocar. Toque numa relíquia e depois noutra célula para mover. Toque duas vezes para remover.',
+  'lab.curse': 'Maldição inicial',
+  'lab.destroyed': 'Destruídas antes',
+  'lab.preset': 'Carregar exemplo…',
+  'lab.clear': 'Limpar bancada',
+  'detail.none': 'Selecione uma relíquia para ver o efeito e o alcance (contorno verde).',
+  'trigger.start': 'gatilho de início',
+  'trigger.wake': 'gatilho de despertar',
+  'save.corrupt': 'O save anterior estava danificado. Ele foi guardado à parte e uma partida nova começou.',
+  'save.incompatible': 'O save anterior é de outra versão das regras. Ele foi guardado à parte e uma partida nova começou.',
+  'foot': 'Sem arte final: relíquias são marcadores de texto. A mesma seed com as mesmas ações dá sempre o mesmo resultado; a prévia não consome a seed.',
+} as const;
+
+export type StringKey = keyof typeof ptBR;
+export const t = (key: StringKey): string => ptBR[key];
+
+export const RELIC_TEXT: Readonly<Record<RelicId, { name: string; glyph: string; desc: string }>> = {
+  candle: { name: 'Vela funerária', glyph: 'Ve', desc: 'Início: desperta vizinhos ortogonais (N, L, S, O) inativos com gatilho de despertar.' },
+  skull: { name: 'Crânio sussurrante', glyph: 'Cr', desc: 'Ao despertar: +10 óbolos.' },
+  coin: { name: 'Moeda de velório', glyph: 'Mo', desc: 'Início: +4 óbolos.' },
+  feather: { name: 'Pena angelical', glyph: 'Pe', desc: 'Início: −5 de maldição (mínimo 0).' },
+  mirror: { name: 'Espelho partido', glyph: 'Es', desc: 'Ao despertar: copia o ganho-base da relíquia à esquerda (crânio, moeda ou livro), sem bônus e sem maldição.' },
+  bell: { name: 'Sino dos mortos', glyph: 'Si', desc: 'Ao despertar: enfileira todos os crânios ainda inativos da bancada.' },
+  thread: { name: 'Fio de mortalha', glyph: 'Fi', desc: 'Ao despertar: desperta o primeiro vizinho inativo (N, L, S, O) e soma +2 de maldição, mesmo sem alvo.' },
+  tooth: { name: 'Dente do devorador', glyph: 'De', desc: 'Ao despertar: +4 óbolos, mais +3 por relíquia destruída nesta partida.' },
+  eye: { name: 'Olho do abismo', glyph: 'Ol', desc: 'Ao despertar: dobra o próximo ganho direto positivo de outra relíquia.' },
+  hourglass: { name: 'Ampulheta invertida', glyph: 'Am', desc: 'Ao despertar: repete o último ganho direto creditado, sem novo multiplicador.' },
+  book: { name: 'Livro proibido', glyph: 'Li', desc: 'Ao despertar: +18 óbolos (abissal: recebe o bônus da faixa de maldição), depois +8 de maldição.' },
+  ring: { name: 'Anel de sacrifício', glyph: 'An', desc: 'Ao despertar: destrói o primeiro vizinho (N, L, S, O) e ganha +16. Sem alvo, nada.' },
+};
+
+export const RARITY_TEXT: Readonly<Record<Rarity, string>> = { common: 'comum', uncommon: 'incomum', rare: 'rara' };
+
+export const NO_EFFECT_TEXT: Readonly<Record<NoEffectReason, string>> = {
+  no_copy_source: 'nada copiável à esquerda',
+  no_prior_gain: 'nenhum ganho direto anterior',
+  no_skull: 'nenhum crânio inativo',
+  no_wake_target: 'nenhum vizinho para despertar',
+  no_sacrifice: 'nenhum vizinho para sacrificar',
+};
